@@ -1,0 +1,8 @@
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Use viewport height to fill the screen */
+  width: 100vw; /* Use viewport width to fill the screen */
+  background-color: #f4f4f4;
+}

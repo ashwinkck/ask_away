@@ -1,0 +1,9 @@
+.chat-window {
+  width: 100%;
+  height: 100%;
+  border: none; /* Remove the border for a seamless look */
+  border-radius: 0; /* No rounded corners on a full-page layout */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: none; /* Remove the shadow as it's no longer a distinct card 
