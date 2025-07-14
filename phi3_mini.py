@@ -18,25 +18,8 @@ model = AutoModelForCausalLM.from_pretrained(
 )
 chat_pipeline = pipeline("text-generation", model=model, tokenizer=tokenizer)
 
-SERPER_API_KEY = "07a71ac759204c2fafccf9289fa46481bf8b252b"
-
 REFERENCE_LINKS = []
 REFERENCE_CONTENT = {}
-
-def fetch_web_results(q):
-    try:
-        res = requests.post(
-            "https://google.serper.dev/search",
-            headers={"X-API-KEY": SERPER_API_KEY},
-            json={"q": q},
-            timeout=5
-        )
-        if res.status_code == 200:
-            return res.json().get("organic", [])
-        logging.warning(f"Search API error: {res.status_code} {res.text}")
-    except requests.RequestException as e:
-        logging.error(f"Web search failed: {e}")
-    return []
 
 def fetch_content_from_url(url):
     try:
@@ -65,22 +48,13 @@ def set_links():
     return jsonify({"message": "Reference links and content updated."})
 
 def build_prompt(query):
-    if REFERENCE_CONTENT:
-        ctx = "\n\n".join(
-            f"{content}\nSource: {link}"
-            for link, content in REFERENCE_CONTENT.items()
-        )
-        logging.info("Using admin-provided reference content.")
-    else:
-        web = fetch_web_results(query)
-        if not web:
-            return None, "No relevant information found."
-        ctx = "\n\n".join(
-            f"{r.get('title')}\n{r.get('snippet')}\nSource: {r.get('link')}"
-            for r in web[:3] if r.get('snippet')
-        )
-        logging.info("Using Serper fallback content.")
+    if not REFERENCE_CONTENT:
+        return None, "No reference content available."
 
+    ctx = "\n\n".join(
+        f"{content}\nSource: {link}"
+        for link, content in REFERENCE_CONTENT.items()
+    )
     messages = [
         {"role": "system", "content": f"You are a helpful assistant. Use ONLY the following information and include source links:\n\n{ctx}"},
         {"role": "user", "content": query}
@@ -91,7 +65,6 @@ def build_prompt(query):
 def generate(prompt):
     result = chat_pipeline(prompt, max_new_tokens=256, temperature=0.2)[0]['generated_text']
     return result.split(prompt)[-1].strip()
-
 
 @app.route("/chat", methods=["POST"])
 def chat():
@@ -106,10 +79,7 @@ def chat():
 
     reply = generate(prompt)
 
-    if REFERENCE_CONTENT:
-        references = "\n".join(f"Source: {link}" for link in REFERENCE_LINKS)
-    else:
-        references = "\nFrom web search fallback."
+    references = "\n".join(f"Source: {link}" for link in REFERENCE_LINKS)
 
     return jsonify({"reply": f"{reply}\n\nReferences:\n{references}"})
 
