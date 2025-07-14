@@ -9,10 +9,10 @@ const ChatWindow = () => {
   ]);
 
   const handleSendMessage = async (messageText) => {
-    const newMessage = { text: messageText, sender: 'user' };
-    setMessages((prev) => [...prev, newMessage]);
+    const userMessage = { text: messageText, sender: 'user' };
+    setMessages((prev) => [...prev, userMessage]);
 
-    // Show loading message
+    // Add loading message
     setMessages((prev) => [...prev, { text: '...', sender: 'bot', loading: true }]);
 
     try {
@@ -21,12 +21,15 @@ const ChatWindow = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: messageText })
       });
+
       const data = await response.json();
+
       setMessages((prev) => [
-        ...prev.slice(0, -1), // Remove loading
-        { text: data.reply, sender: 'bot' }
+        ...prev.slice(0, -1), // Remove the loading message
+        { text: data.reply || 'No response received.', sender: 'bot' }
       ]);
     } catch (error) {
+      console.error('Fetch error:', error);
       setMessages((prev) => [
         ...prev.slice(0, -1),
         { text: 'Sorry, there was an error connecting to the server.', sender: 'bot' }
