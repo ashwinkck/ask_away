@@ -1,0 +1,7 @@
+Flask
+pdfplumber
+google-generativeai
+werkzeug
+streamlit
+requests
+python-dotenv
