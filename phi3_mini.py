@@ -3,10 +3,12 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 import requests
 import logging
 from bs4 import BeautifulSoup
+from flask_cors import CORS
 
 logging.basicConfig(level=logging.INFO)
 
 app = Flask(__name__)
+CORS(app)
 
 model_id = "microsoft/Phi-3-mini-128k-instruct"
 tokenizer = AutoTokenizer.from_pretrained(model_id, trust_remote_code=True)

@@ -8,16 +8,30 @@ const ChatWindow = () => {
     { text: 'Hello! How can I help you today?', sender: 'bot' }
   ]);
 
-  const handleSendMessage = (messageText) => {
+  const handleSendMessage = async (messageText) => {
     const newMessage = { text: messageText, sender: 'user' };
-    setMessages([...messages, newMessage]);
+    setMessages((prev) => [...prev, newMessage]);
 
-    // Here you would add the logic to get a response from a bot
-    // For now, we'll just simulate a bot response
-    setTimeout(() => {
-      const botResponse = { text: 'This is a simulated bot response.', sender: 'bot' };
-      setMessages(prevMessages => [...prevMessages, botResponse]);
-    }, 1000);
+    // Show loading message
+    setMessages((prev) => [...prev, { text: '...', sender: 'bot', loading: true }]);
+
+    try {
+      const response = await fetch('http://localhost:8000/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: messageText })
+      });
+      const data = await response.json();
+      setMessages((prev) => [
+        ...prev.slice(0, -1), // Remove loading
+        { text: data.reply, sender: 'bot' }
+      ]);
+    } catch (error) {
+      setMessages((prev) => [
+        ...prev.slice(0, -1),
+        { text: 'Sorry, there was an error connecting to the server.', sender: 'bot' }
+      ]);
+    }
   };
 
   return (
