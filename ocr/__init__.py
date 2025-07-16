@@ -1,0 +1,1 @@
+from .app import app as ocr_app 
