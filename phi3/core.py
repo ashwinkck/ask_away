@@ -79,7 +79,7 @@ def chat_completions():
         return jsonify({"error": "No messages provided."}), 400
 
     q = messages[-1]["content"]
-    prompt = build_prompt(q, SERPER_API_KEY)
+    prompt, sources = build_prompt(q, SERPER_API_KEY)
     if not prompt:
         return jsonify({"error": "No relevant information found."}), 400
 
@@ -94,7 +94,8 @@ def chat_completions():
                 "index": 0,
                 "message": {
                     "role": "assistant",
-                    "content": reply
+                    "content": reply,
+                    "sources": sources  # <-- include sources in the message
                 },
                 "finish_reason": "stop"
             }
@@ -159,6 +160,8 @@ def fetch_local_context(query, max_chunks=3):
         ])
         words = re.findall(r'\b\w+\b', query.lower())
         keywords = [w for w in words if w not in stopwords and len(w) > 2]
+        logging.info(f"[LocalContext] Query: {query}")
+        logging.info(f"[LocalContext] Extracted keywords: {keywords}")
         if not keywords:
             return None
         chunks = text.split('\n--- Page')
@@ -169,6 +172,9 @@ def fetch_local_context(query, max_chunks=3):
                 relevant.append(chunk.strip())
             if len(relevant) >= max_chunks:
                 break
+        logging.info(f"[LocalContext] Relevant chunks found: {len(relevant)}")
+        for i, chunk in enumerate(relevant):
+            logging.info(f"[LocalContext] Chunk {i+1}: {chunk[:200]}...")
         if relevant:
             return '\n\n'.join(relevant)
     except Exception as e:
@@ -184,21 +190,24 @@ def build_prompt(query, serper_api_key):
             {"role": "user", "content": query}
         ]
         prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-        return prompt
+        return prompt, []  # No sources for local context
     # Fallback to web search (Serper)
     web = fetch_web_results(query, serper_api_key)
     if not web:
-        return None
+        return None, []
+    # Pick the best 1-3 results with snippets
+    best_results = [r for r in web if r.get('snippet')][:3]
     ctx = "\n\n".join(
         f"{r.get('title')}\n{r.get('snippet')}\nSource: {r.get('link')}"
-        for r in web[:3] if r.get('snippet')
+        for r in best_results
     )
+    sources = [r.get('link') for r in best_results if r.get('link')]
     messages = [
         {"role": "system", "content": f"You are a helpful assistant,which concise the infos and explain it maximum 5 lines:\n\n{ctx}"},
         {"role": "user", "content": query}
     ]
     prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-    return prompt
+    return prompt, sources
 
 def generate(prompt):
     result = chat_pipeline(prompt, max_new_tokens=256, temperature=0.2)[0]['generated_text']

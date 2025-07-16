@@ -78,7 +78,7 @@ const Chat = () => {
           id: (Date.now() + 1).toString(),
           query: message,
           response: data.choices[0].message.content,
-          sources: [],
+          sources: data.choices[0].message.sources || [],
           timestamp: new Date().toISOString(),
           isUser: false
         }
