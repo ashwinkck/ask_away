@@ -1,5 +1,5 @@
 import { FiMenu } from 'react-icons/fi'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {
   Box,
   Flex,
@@ -27,7 +27,8 @@ const Chat = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const isMobile = useBreakpointValue({ base: true, md: false })
   const bg = useColorModeValue('gray.50', 'gray.900')
-  const [hasChatStarted, setHasChatStarted] = useState(false) // New state for chat position
+  const [hasChatStarted, setHasChatStarted] = useState(false)
+  const messagesEndRef = useRef(null)
 
   useEffect(() => {
     const savedHistory = localStorage.getItem('chatHistory')
@@ -35,6 +36,12 @@ const Chat = () => {
       setHistory(JSON.parse(savedHistory))
     }
   }, [])
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [messages])
 
   const handleSendMessage = async (message) => {
     const userMessage = {
@@ -48,7 +55,7 @@ const Chat = () => {
     setIsLoading(true)
 
     if (!hasChatStarted) {
-      setHasChatStarted(true) // Set to true on first message
+      setHasChatStarted(true)
     }
 
     setTimeout(() => {
@@ -97,7 +104,7 @@ const Chat = () => {
     }
 
     setMessages([userMessage, aiMessage])
-    setHasChatStarted(true) // Set to true when selecting from history
+    setHasChatStarted(true)
     onClose()
   }
 
@@ -115,36 +122,36 @@ const Chat = () => {
       transition={{ duration: 0.5 }}
     >
       <Header />
-      
-      <Flex direction="column" pt="70px" pb="80px" minH="100vh">
-        {isMobile && (
-          <Box position="fixed" top="70px" left={4} zIndex={100}>
-            <IconButton
-              aria-label="Open chat history"
-              icon={<FiMenu />}
-              onClick={onOpen}
-              size="md"
-              colorScheme="blue"
-              variant="ghost"
-            />
+      {/* Sidebar can be added here if needed */}
+      {messages.length === 0 ? (
+        // Centered initial state
+        <Flex direction="column" align="center" justify="center" minH="100vh" pt="0" pb="0">
+          <Box mb={8} textAlign="center">
+            <Text
+              fontSize={{ base: '3xl', md: '4xl' }}
+              fontWeight="bold"
+              color="gray.100"
+              mb={2}
+              letterSpacing="wide"
+              style={{ fontFamily: 'Staatliches, sans-serif' }}
+            >
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: 8 }}><circle cx="24" cy="24" r="24" fill="#23272F"/><path d="M24 12L28.3923 21.1764L38 22.3923L30.8 29.6077L32.7846 39L24 34.1764L15.2154 39L17.2 29.6077L10 22.3923L19.6077 21.1764L24 12Z" fill="#646cff"/></svg>
+                AskAway
+              </span>
+            </Text>
+            <Text color="gray.400" fontSize="lg">What do you want to know?</Text>
           </Box>
-        )}
-
-        <Container maxW="4xl" flex={1} py={4}>
-          <VStack spacing={4} align="stretch" minH="full">
-            {messages.length === 0 ? (
-              <Box textAlign="center" color="gray.500" mt={20}>
-                <Text
-                  fontSize="4xl"
-                  fontFamily="Staatliches, sans-serif"
-                  fontWeight="bold"
-                  mb={4}
-                >
-                  AskAway
-                </Text>
-              </Box>
-            ) : (
-              messages.map((message) => (
+          <Box w={{ base: '90%', sm: '400px' }}>
+            <ChatInput onSendMessage={handleSendMessage} isLoading={isLoading} hasChatStarted={hasChatStarted} isCentered />
+          </Box>
+        </Flex>
+      ) : (
+        // Active chat state
+        <Flex direction="column" pt="70px" minH="100vh" justify="flex-end">
+          <Container maxW="4xl" flex={1} py={4} display="flex" flexDirection="column" justifyContent="flex-end">
+            <VStack spacing={4} align="stretch" flex={1}>
+              {messages.map((message) => (
                 <ResponseCard
                   key={message.id}
                   query={message.query}
@@ -153,14 +160,17 @@ const Chat = () => {
                   timestamp={message.timestamp}
                   isUser={message.isUser}
                 />
-              ))
-            )}
-          </VStack>
-        </Container>
-      </Flex>
-
-      <ChatInput onSendMessage={handleSendMessage} isLoading={isLoading} hasChatStarted={hasChatStarted} />
-      
+              ))}
+              <div ref={messagesEndRef} />
+            </VStack>
+          </Container>
+          <Box w="100%" position="sticky" bottom={0} bg={bg} px={{ base: 2, md: 0 }} py={4} boxShadow="0 -2px 16px 0 rgba(0,0,0,0.12)">
+            <Container maxW="4xl">
+              <ChatInput onSendMessage={handleSendMessage} isLoading={isLoading} hasChatStarted={hasChatStarted} />
+            </Container>
+          </Box>
+        </Flex>
+      )}
       <HistoryDrawer
         isOpen={isOpen}
         onClose={onClose}

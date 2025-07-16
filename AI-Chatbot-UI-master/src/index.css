@@ -22,6 +22,29 @@ a:hover {
   color: #535bf2;
 }
 
+/* Custom scrollbar for main page */
+body::-webkit-scrollbar {
+  width: 10px;
+  background: transparent;
+}
+body::-webkit-scrollbar-thumb {
+  background: rgba(100, 108, 255, 0.08);
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+body:hover::-webkit-scrollbar-thumb,
+body:focus-within::-webkit-scrollbar-thumb {
+  background: rgba(100, 108, 255, 0.25);
+}
+
+body {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(100,108,255,0.08) transparent;
+}
+body:hover {
+  scrollbar-color: rgba(100,108,255,0.25) transparent;
+}
+
 body {
   margin: 0;
   display: flex;

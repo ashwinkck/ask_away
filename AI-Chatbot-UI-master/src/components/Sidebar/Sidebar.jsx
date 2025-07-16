@@ -10,7 +10,8 @@ import {
   Text,
   useColorModeValue,
   Collapse,
-  Flex
+  Flex,
+  Tooltip
 } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 import { mockChatHistory } from '../../mockdata.js'
@@ -21,8 +22,12 @@ const MotionIconButton = motion(IconButton)
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
-  const lightBg = useColorModeValue('white', 'gray.800') // Match header
-  const bg = isOpen ? lightBg : lightBg // Same color when collapsed
+  const sidebarBg = useColorModeValue('#f7fafd', '#181A20')
+  const chatItemBg = useColorModeValue('#e3e8f0', '#23272F')
+  const chatItemHoverBg = useColorModeValue('#d1d5db', '#23272F')
+  const chatTextColor = useColorModeValue('gray.800', 'gray.100')
+  const searchBg = useColorModeValue('#e3e8f0', '#23272F')
+  const searchPlaceholder = useColorModeValue('gray.500', 'gray.400')
   const borderColor = useColorModeValue('gray.200', 'gray.600')
 
   const toggleSidebar = () => setIsOpen(!isOpen)
@@ -59,59 +64,74 @@ const Sidebar = () => {
       position="fixed"
       top="70px"
       bottom={0}
-      w={{ base: '0', md: isOpen ? '250px' : '60px' }}
-      bg={bg}
+      left={0}
+      w={{ base: '0', md: isOpen ? '240px' : '60px' }}
+      bg={sidebarBg}
       borderRightWidth="1px"
-      borderRightColor={borderColor}
-      p={4}
+      borderRightColor={useColorModeValue('gray.200', 'gray.700')}
+      p={2}
       transition="width 0.3s ease, background-color 0.3s ease"
       overflow="hidden"
       zIndex={999}
+      borderRadius="0 1.5rem 1.5rem 0"
+      boxShadow="md"
+      display={{ base: 'none', md: 'block' }}
     >
-      <Flex justify="flex-end" mb={4}>
+      <Flex justify="flex-end" mb={2}>
         <MotionIconButton
           aria-label="Toggle sidebar"
           icon={<FiChevronLeft />}
           onClick={toggleSidebar}
           size="sm"
           variant="ghost"
-          whileHover={{ scale: 1.1 }}
+          borderRadius="full"
+          whileHover={{ scale: 1.1, backgroundColor: chatItemHoverBg }}
           whileTap={{ scale: 0.9 }}
           transform={isOpen ? 'rotate(0deg)' : 'rotate(180deg)'}
           transition={{ duration: 0.3 }}
         />
       </Flex>
-
       <Collapse in={isOpen} animateOpacity>
-        <InputGroup mb={4} borderRadius="full">
+        <InputGroup mb={3} borderRadius="full">
           <InputLeftElement pointerEvents="none">
-            <FiSearch color="gray.300" />
+            <FiSearch color={searchPlaceholder} />
           </InputLeftElement>
           <Input
             placeholder="Search chats..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             borderRadius="full"
-            focusBorderColor="brand.500"
+            focusBorderColor="#646cff"
+            bg={searchBg}
+            color={chatTextColor}
+            _placeholder={{ color: searchPlaceholder }}
+            fontSize="sm"
+            borderWidth="1px"
+            borderColor={useColorModeValue('gray.200', 'gray.700')}
           />
         </InputGroup>
-
-        <VStack align="stretch" spacing={4} overflowY="auto" maxH="calc(100vh - 180px)">
+        <VStack align="stretch" spacing={3} overflowY="auto" maxH="calc(100vh - 160px)">
           {Object.entries(filteredHistory).map(([group, items]) => (
-            <Box key={group}>
-              <Text fontWeight="bold" color="gray.500" mb={2}>{group}</Text>
+            <Box key={group} mb={2}>
+              <Text fontWeight="bold" color={searchPlaceholder} mb={1} fontSize="xs" pl={2}>{group}</Text>
               {items.map((item) => (
-                <Flex
-                  key={item.id}
-                  p={2}
-                  borderRadius="md"
-                  _hover={{ bg: useColorModeValue('gray.100', 'gray.700') }}
-                  align="center"
-                  cursor="pointer"
-                >
-                  <FiMessageCircle color={useColorModeValue('gray.600', 'gray.400')} />
-                  <Text ml={2} fontSize="sm">{item.query}</Text>
-                </Flex>
+                <Tooltip label={item.query} placement="right" hasArrow key={item.id}>
+                  <Flex
+                    key={item.id}
+                    p={2}
+                    borderRadius="lg"
+                    bg={chatItemBg}
+                    _hover={{ bg: chatItemHoverBg }}
+                    align="center"
+                    cursor="pointer"
+                    transition="background 0.2s"
+                  >
+                    <FiMessageCircle color={useColorModeValue('#646cff', '#646cff')} />
+                    <Text ml={2} fontSize="sm" isTruncated maxW="140px" color={chatTextColor}>
+                      {item.query}
+                    </Text>
+                  </Flex>
+                </Tooltip>
               ))}
             </Box>
           ))}
