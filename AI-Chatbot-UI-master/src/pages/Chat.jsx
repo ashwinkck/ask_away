@@ -58,32 +58,63 @@ const Chat = () => {
       setHasChatStarted(true)
     }
 
-    setTimeout(() => {
-      const aiResponse = {
-        id: (Date.now() + 1).toString(),
-        query: message,
-        response: `This is a mock response to: "${message}". The AI would analyze the uploaded documents and provide relevant information based on the query.`,
-        sources: ['doc1.pdf', 'example.com'],
-        timestamp: new Date().toISOString(),
-        isUser: false
+    try {
+      // Show loading indicator as a message
+      setMessages(prev => [
+        ...prev,
+        { id: 'loading', response: 'AI is thinking...', isUser: false, loading: true }
+      ])
+      // Send to LLM backend
+      const res = await fetch('http://localhost:8001/llm/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: [{ role: 'user', content: message }] })
+      })
+      const data = await res.json()
+      // Remove loading indicator
+      setMessages(prev => prev.filter(m => !m.loading))
+      if (res.ok && data.choices && data.choices[0]?.message?.content) {
+        const aiResponse = {
+          id: (Date.now() + 1).toString(),
+          query: message,
+          response: data.choices[0].message.content,
+          sources: [],
+          timestamp: new Date().toISOString(),
+          isUser: false
+        }
+        setMessages(prev => [...prev, aiResponse])
+        // Optionally update history as before
+        const newHistoryItem = {
+          id: aiResponse.id,
+          query: message,
+          response: aiResponse.response,
+          sources: aiResponse.sources,
+          timestamp: aiResponse.timestamp
+        }
+        const updatedHistory = [newHistoryItem, ...history]
+        setHistory(updatedHistory)
+        localStorage.setItem('chatHistory', JSON.stringify(updatedHistory))
+      } else {
+        setMessages(prev => [...prev, {
+          id: (Date.now() + 2).toString(),
+          response: data.error || 'Failed to get a response from the AI.',
+          isUser: false,
+          error: true,
+          timestamp: new Date().toISOString()
+        }])
       }
-
-      setMessages(prev => [...prev, aiResponse])
-      
-      const newHistoryItem = {
-        id: aiResponse.id,
-        query: message,
-        response: aiResponse.response,
-        sources: aiResponse.sources,
-        timestamp: aiResponse.timestamp
-      }
-      
-      const updatedHistory = [newHistoryItem, ...history]
-      setHistory(updatedHistory)
-      localStorage.setItem('chatHistory', JSON.stringify(updatedHistory))
-      
+    } catch (err) {
+      setMessages(prev => prev.filter(m => !m.loading))
+      setMessages(prev => [...prev, {
+        id: (Date.now() + 3).toString(),
+        response: 'Network error: Could not reach the AI backend.',
+        isUser: false,
+        error: true,
+        timestamp: new Date().toISOString()
+      }])
+    } finally {
       setIsLoading(false)
-    }, 2000)
+    }
   }
 
   const handleSelectQuery = (historyItem) => {

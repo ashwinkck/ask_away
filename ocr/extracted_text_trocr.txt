@@ -1,0 +1,92 @@
+--- Page 1 ---
+Hansel Thomas Dsouza
+
+Mangalore, Karnataka, India | P: +91 8296229868 | hanseldsouza6904(@email.com
+Github | LinkedIn
+
+Tam a passionate Full Stack Developer with a strong interest in AI and impactful technology. I enjoy building practical solutions,
+exploring new tools, and constantly improving my skills through real-world projects and hackathons. I believe in writing clean,
+efficient code and learning by doing.
+
+EDUCATION
+
+YENEPOYA INSTITUTE OF TECHNOLOGY Moodbidti, Karnataka
+B.E in Computer Science Engineering Expected April 2026
+THE LEARNING CENTRE Mangalore, Karnataka
+PCMC (Physics , Chemistry , Mathematics , Compute Science) Oct 2020 - Mar 2022
+OUR OWN ENGLISH HIGH SCHOOL SHARJAH (BOYS BRANCH) Sharjah, UAE
+Study Abroad Program in International Business and Globalization 2008 - 2020
+SKILLS
+
+Frontend: React, Tailwind CSS, HTML, CSS, GSAP, JavaScript
+
+Backend: Flask, FastAPI, Node.js, Firebase Functions
+
+Database: Firebase Firestore
+
+Programming & Problem Solving: Strong grasp of Data Structures & Algorithms; doing LeetCode problems; regularly
+practice competitive coding; good grasp of Python programming,
+
+WORK EXPERIENCE
+
+POST OPERATIVE REHABILITATION APP (3 Member project for Yenepoya Hospital) Feb 2025 — Ongoing
+(OpenCV, Pose Estimation, Play.ht API, Firebase Authentication, Firebase Firestore, React)
+
+e Built a mobile-first rehabilitation platform to analyze real-time knee and hip joint angles using OpenCV and pose estimation.
+
+e Integrated Play.ht API to deliver multilingual voice instructions using a cloned doctor’s voice for guided recovery.
+
+e Firebase is used for user authentication and to automatically store daily movement data in the cloud.
+
+e Designed separate dashboards for doctor and patients with progress graphs, login access , recovery tracking , and movement
+history
+
+PROJECTS
+
+ADAPTIPLAN AI - INTELLIGENT SCHEDULING ASSISTANT Apr 2025
+
+(React, Vite, Tatlwind CSS, FastAPI, Firestore, Google OR-Tools, Scikit-learn, GSAP)
+
+e Developed an AI-driven scheduling platform with React drag-and-drop calendar UI, supporting multi-day events and
+color-coded employee task assignments in a 3-person team 36 hours hackathon.
+
+e@ Implemented backend scheduling optimization using Google OR-Tools and bottleneck prediction with Scikit-learn; used
+FastAPI and Firestore for real-time data handling.
+
+e Ensured smooth UX with GSAP animations, feedback-based dynamic rescheduling, and an admin dashboard for efficient
+task and employee management.
+
+AI-POWERED HEALTH ASSISTANT Dec 2024
+
+(React, Gemini API, Firebase Authentication, Firebase Firestore, Tailwind CSS)
+
+e@ Developed an intelligent chatbot using Gemini API to provide real-time, personalized health advice with a clean React UI
+styled by Tailwind CSS, optimized for desktop and mobile.
+
+e Implemented secure login with Firebase Authentication and used Firestore to store and manage chat history for persistent,
+contextual user interactions.
+
+
+--- Page 2 ---
+ACTIVITIES
+
+Participated in 4 major hackathons, building solutions in AI, accessibility , and public safety
+
+e AI Health Bot — Yenepoya Institute of Technology, Jan 2024
+e Sign Language Detection System — Srinivas University Sep 2024
+e@ Women’s Safety App — Mumbai Hacks, part of Guinness World Record for largest GenAI hackathon Oct 2024
+e AdaptiPlan AI — St. Joseph’s Engineering College Apr 2025
+
+Paper Presentation
+
+May 2024
+e@ Technical Paper Presentation on AI & ML, organized by IBM ICE,Yenepoya Institute of Technology
+
+ACHIEVEMENTS
+
+e@ Secured 3rd Place — Technical Paper Presentation on AI & ML, organized by IBM ICE,Yenepoya Institute of Technology
+— May 2024
+
+e Achieved 3rd place in AdaptiPlan AI project at St. Joseph’s Engineering College Hackathon — Apr 2025
+
+

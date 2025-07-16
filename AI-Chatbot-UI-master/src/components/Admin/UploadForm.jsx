@@ -18,9 +18,8 @@ import { useAuth } from '../../hooks/useAuth'
 const MotionBox = motion(Box)
 const MotionButton = motion(Button)
 
-const UploadForm = ({ onUpload }) => {
+const UploadForm = ({ onUpload, onlyPdf }) => {
   const [file, setFile] = useState(null)
-  const [url, setUrl] = useState('')
   const [isUploading, setIsUploading] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0)
   const [message, setMessage] = useState('')
@@ -34,7 +33,6 @@ const UploadForm = ({ onUpload }) => {
     if (selectedFile) {
       if (selectedFile.type === 'application/pdf') {
         setFile(selectedFile)
-        setUrl('')
         setMessage('')
       } else {
         setMessage('Please select a PDF file')
@@ -44,73 +42,63 @@ const UploadForm = ({ onUpload }) => {
     }
   }
 
-  const handleUrlChange = (e) => {
-    setUrl(e.target.value)
-    setFile(null)
-    setMessage('')
-  }
-
   const handleUpload = async () => {
-    if (!file && !url) {
-      setMessage('Please select a PDF file or enter a URL')
+    if (!file) {
+      setMessage('Please select a PDF file')
       setMessageType('error')
       return
     }
-
-    if (url && !isValidUrl(url)) {
-      setMessage('Please enter a valid URL')
-      setMessageType('error')
-      return
-    }
-
     setIsUploading(true)
     setUploadProgress(0)
     setMessage('')
-
-    // Simulate upload progress
-    const interval = setInterval(() => {
-      setUploadProgress(prev => {
-        if (prev >= 90) {
-          clearInterval(interval)
-          return prev
-        }
-        return prev + 10
-      })
-    }, 200)
-
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      
-      const uploadData = {
+      // Upload PDF to backend
+      const formData = new FormData()
+      formData.append('file', file)
+      const uploadRes = await fetch('http://localhost:8002/ocr/upload', {
+        method: 'POST',
+        body: formData
+      })
+      const uploadData = await uploadRes.json()
+      if (!uploadRes.ok) {
+        setMessage(uploadData.error || 'Upload failed')
+        setMessageType('error')
+        setIsUploading(false)
+        return
+      }
+      setUploadProgress(60)
+      // Automatically trigger extraction
+      const extractRes = await fetch('http://localhost:8002/ocr/extract-from-uploaded', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ filename: uploadData.filename })
+      })
+      const extractData = await extractRes.json()
+      if (!extractRes.ok) {
+        setMessage(extractData.error || 'Extraction failed')
+        setMessageType('error')
+        setIsUploading(false)
+        return
+      }
+      setUploadProgress(100)
+      setMessage('PDF uploaded and text extracted successfully')
+      setMessageType('success')
+      // Optionally update resources
+      onUpload && onUpload({
         id: Date.now().toString(),
-        type: file ? 'pdf' : 'url',
-        filename: file ? file.name : null,
-        fileUrl: file ? URL.createObjectURL(file) : null,
-        url: url || null,
+        type: 'pdf',
+        filename: uploadData.filename,
+        fileUrl: null,
+        url: null,
         uploadedBy: user?.email || 'admin@example.com',
         timestamp: new Date().toISOString()
-      }
-
-      // Save to localStorage
-      const storedResources = JSON.parse(localStorage.getItem('resources') || '[]')
-      storedResources.push(uploadData)
-      localStorage.setItem('resources', JSON.stringify(storedResources))
-
-      setUploadProgress(100)
-      onUpload(uploadData)
-      
-      setMessage(file ? 'PDF uploaded successfully' : 'URL added successfully')
-      setMessageType('success')
+      })
       setFile(null)
-      setUrl('')
-      
       // Reset form
       const fileInput = document.getElementById('file-input')
       if (fileInput) fileInput.value = ''
-      
     } catch (error) {
-      setMessage('Upload failed. Please try again.')
+      setMessage('Upload or extraction failed. Please try again.')
       setMessageType('error')
     } finally {
       setIsUploading(false)
@@ -118,15 +106,6 @@ const UploadForm = ({ onUpload }) => {
         setUploadProgress(0)
         setMessage('')
       }, 3000)
-    }
-  }
-
-  const isValidUrl = (string) => {
-    try {
-      new URL(string)
-      return true
-    } catch (_) {
-      return false
     }
   }
 
@@ -143,16 +122,14 @@ const UploadForm = ({ onUpload }) => {
     >
       <VStack spacing={4} align="stretch">
         <Text fontSize="lg" fontWeight="bold">
-          Upload PDF or Add URL
+          Upload PDF
         </Text>
-        
         {message && (
           <Alert status={messageType} borderRadius="md">
             <AlertIcon />
             {message}
           </Alert>
         )}
-        
         <VStack spacing={3} align="stretch">
           <Box>
             <Text fontSize="sm" mb={2} color="gray.600">
@@ -171,27 +148,7 @@ const UploadForm = ({ onUpload }) => {
               disabled={isUploading}
             />
           </Box>
-          
-          <Text textAlign="center" color="gray.500" fontSize="sm">
-            OR
-          </Text>
-          
-          <Box>
-            <Text fontSize="sm" mb={2} color="gray.600">
-              Add URL
-            </Text>
-            <Input
-              type="url"
-              placeholder="Enter a URL (e.g., https://example.com)"
-              value={url}
-              onChange={handleUrlChange}
-              size="md"
-              focusBorderColor="brand.500"
-              disabled={isUploading}
-            />
-          </Box>
         </VStack>
-        
         {isUploading && (
           <Box>
             <Progress value={uploadProgress} colorScheme="blue" size="md" />
@@ -200,13 +157,12 @@ const UploadForm = ({ onUpload }) => {
             </Text>
           </Box>
         )}
-        
         <HStack justify="flex-end">
           <MotionButton
             colorScheme="green"
             size="md"
             onClick={handleUpload}
-            isDisabled={(!file && !url) || isUploading}
+            isDisabled={!file || isUploading}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >

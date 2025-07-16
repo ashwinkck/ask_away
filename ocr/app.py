@@ -5,10 +5,15 @@ from PIL import Image
 import io
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import os
+from flask_cors import CORS
 
 # Set your installed Tesseract executable path here
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 app = Flask(__name__)
+CORS(app)
+
+UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), '..', 'uploaded_pdfs')
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 def pdf_pages_to_images_from_bytes(pdf_bytes):
     doc = fitz.open(stream=pdf_bytes, filetype="pdf")
@@ -62,7 +67,7 @@ def ocr_extract_from_uploaded():
     if not data or 'filename' not in data:
         return jsonify({"error": "Missing filename in request."}), 400
     filename = data['filename']
-    pdf_path = os.path.join('uploaded_pdfs', filename)
+    pdf_path = os.path.join(UPLOAD_FOLDER, filename)
     output_path = 'extracted_text_trocr.txt'
     if not os.path.exists(pdf_path):
         return jsonify({"error": f"File not found: {pdf_path}"}), 404
@@ -78,6 +83,22 @@ def ocr_extract_from_uploaded():
                 out_f.write(f"--- Page {page_num} ---\n")
                 out_f.write(text + "\n\n")
         return jsonify({"message": f"Extracted text written to {output_path}"})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/ocr/upload", methods=["POST"])
+def upload_pdf():
+    if 'file' not in request.files:
+        return jsonify({"error": "No file part in the request."}), 400
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({"error": "No selected file."}), 400
+    if not file or not file.filename.lower().endswith('.pdf'):
+        return jsonify({"error": "Please upload a PDF file."}), 400
+    try:
+        save_path = os.path.join(UPLOAD_FOLDER, file.filename)
+        file.save(save_path)
+        return jsonify({"message": "PDF uploaded successfully.", "filename": file.filename}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
