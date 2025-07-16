@@ -24,8 +24,9 @@ app = Flask(__name__)
 CORS(app, supports_credentials=True, origins=["*"])
 
 SERPER_API_KEY = "07a71ac759204c2fafccf9289fa46481bf8b252b"
-EXTRACTED_TEXT_PATH = os.path.join(os.path.dirname(__file__), '..', 'extracted_text_trocr.txt')
+EXTRACTED_TEXT_PATH = r"C:\Users\ashwi\OneDrive\Desktop\askaway\ocr\extracted_text_trocr.txt"
 ALLOWED_SITES_PATH = os.path.join(os.path.dirname(__file__), '..', 'allowed_sites.json')
+MIN_LOCAL_MATCHES_REQUIRED = 1
 
 ALLOWED_SITES_LOCK = threading.Lock()
 
@@ -79,34 +80,47 @@ def chat_completions():
         return jsonify({"error": "No messages provided."}), 400
 
     q = messages[-1]["content"]
-    prompt, sources = build_prompt(q, SERPER_API_KEY)
-    if not prompt:
-        return jsonify({"error": "No relevant information found."}), 400
+    try:
+        prompt, sources = build_prompt(q, SERPER_API_KEY)
+        if not prompt:
+            return jsonify({"error": "No relevant information found."}), 400
 
-    reply = generate(prompt)
-    response = {
-        "id": "chatcmpl-custom-001",
-        "object": "chat.completion",
-        "created": 0,
-        "model": model_id,
-        "choices": [
-            {
-                "index": 0,
-                "message": {
-                    "role": "assistant",
-                    "content": reply,
-                    "sources": sources  # <-- include sources in the message
-                },
-                "finish_reason": "stop"
+        try:
+            reply = generate(prompt)
+        except Exception as e:
+            logging.error(f"[ModelGeneration] Error: {e}")
+            return jsonify({"error": f"Model generation failed: {str(e)}"}), 500
+
+        try:
+            response = {
+                "id": "chatcmpl-custom-001",
+                "object": "chat.completion",
+                "created": 0,
+                "model": model_id,
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": reply,
+                            "sources": sources
+                        },
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": len(tokenizer(prompt)["input_ids"]),
+                    "completion_tokens": len(tokenizer(reply)["input_ids"]),
+                    "total_tokens": len(tokenizer(prompt + reply)["input_ids"]),
+                }
             }
-        ],
-        "usage": {
-            "prompt_tokens": len(tokenizer(prompt)["input_ids"]),
-            "completion_tokens": len(tokenizer(reply)["input_ids"]),
-            "total_tokens": len(tokenizer(prompt + reply)["input_ids"]),
-        }
-    }
-    return jsonify(response)
+            return jsonify(response)
+        except Exception as e:
+            logging.error(f"[ResponseBuild] Error: {e}")
+            return jsonify({"error": f"Response build failed: {str(e)}"}), 500
+    except Exception as e:
+        logging.error(f"[ChatCompletions] Error: {e}")
+        return jsonify({"error": f"Internal server error: {str(e)}"}), 500
 
 @app.route('/admin/add-allowed-site', methods=['POST'])
 def admin_add_allowed_site():
@@ -123,7 +137,6 @@ def admin_get_allowed_sites():
     return jsonify({'allowed_sites': sites}), 200
 
 def fetch_web_results(q, serper_api_key):
-    # Add site restriction to the query if allowed sites are specified
     if ALLOWED_SITES:
         site_filter = " OR ".join([f"site:{site}" for site in ALLOWED_SITES])
         filtered_query = f"{q} {site_filter}"
@@ -137,7 +150,6 @@ def fetch_web_results(q, serper_api_key):
             timeout=5
         )
         if res.status_code == 200:
-            # Optionally filter results to only allowed sites
             results = res.json().get("organic", [])
             if ALLOWED_SITES:
                 results = [r for r in results if any(site in r.get('link', '') for site in ALLOWED_SITES)]
@@ -147,55 +159,58 @@ def fetch_web_results(q, serper_api_key):
         logging.error(f"Web search failed: {e}")
     return []
 
-# Utility to search extracted_text_trocr.txt for relevant context
-def fetch_local_context(query, max_chunks=3):
+def fetch_local_context(query, max_chunks=5):
     if not os.path.exists(EXTRACTED_TEXT_PATH):
+        logging.warning("[LocalContext] Text file not found.")
         return None
     try:
         with open(EXTRACTED_TEXT_PATH, 'r', encoding='utf-8') as f:
             text = f.read()
-        # Extract keywords from the query (ignore common stopwords and short words)
+
         stopwords = set([
-            'the', 'and', 'for', 'with', 'that', 'this', 'from', 'what', 'who', 'when', 'where', 'how', 'why', 'are', 'was', 'is', 'a', 'an', 'to', 'of', 'in', 'on', 'at', 'by', 'as', 'it', 'be', 'or', 'if', 'do', 'does', 'did', 'can', 'could', 'should', 'would', 'but', 'so', 'not', 'about', 'into', 'which', 'their', 'them', 'they', 'you', 'your', 'we', 'our', 'us', 'he', 'she', 'his', 'her', 'him', 'its', 'have', 'has', 'had', 'will', 'just', 'than', 'then', 'too', 'also', 'more', 'most', 'some', 'such', 'no', 'nor', 'very', 'over', 'under', 'out', 'up', 'down', 'off', 'again', 'once', 'only', 'all', 'any', 'each', 'few', 'other', 'own', 'same', 'so', 'because', 'until', 'while', 'during', 'before', 'after', 'above', 'below', 'between', 'both', 'through', 'further', 'my', 'me', 'your', 'yours', 'theirs', 'ours', 'mine', 'yourselves', 'ourselves', 'themselves', 'himself', 'herself', 'itself', 'am', 'were', 'being', 'been', 'having', 'doing', 'against', 'off', 'per', 'via', 'etc'
+            'the', 'and', 'for', 'with', 'that', 'this', 'from', 'what', 'who', 'when', 'where', 'how', 'why', 'are',
+            'was', 'is', 'a', 'an', 'to', 'of', 'in', 'on', 'at', 'by', 'as', 'it', 'be', 'or', 'if', 'do', 'does', 'did',
+            'can', 'could', 'should', 'would', 'but', 'so', 'not', 'about', 'into', 'which', 'their', 'them', 'they',
+            'you', 'your', 'we', 'our', 'us', 'he', 'she', 'his', 'her', 'him', 'its', 'have', 'has', 'had', 'will',
+            'just', 'than', 'then', 'too', 'also', 'more', 'most', 'some', 'such', 'no', 'nor', 'very', 'over', 'under',
+            'out', 'up', 'down', 'off', 'again', 'once', 'only', 'all', 'any', 'each', 'few', 'other', 'own', 'same',
+            'because', 'until', 'while', 'during', 'before', 'after', 'above', 'below', 'between', 'both', 'through',
+            'further', 'my', 'me', 'yours', 'theirs', 'ours', 'mine', 'yourselves', 'ourselves', 'themselves', 'himself',
+            'herself', 'itself', 'am', 'were', 'being', 'been', 'having', 'doing', 'against', 'off', 'per', 'via', 'etc'
         ])
+
         words = re.findall(r'\b\w+\b', query.lower())
         keywords = [w for w in words if w not in stopwords and len(w) > 2]
-        logging.info(f"[LocalContext] Query: {query}")
-        logging.info(f"[LocalContext] Extracted keywords: {keywords}")
-        if not keywords:
-            return None
+
         chunks = text.split('\n--- Page')
-        relevant = []
-        for chunk in chunks:
-            chunk_lower = chunk.lower()
-            if any(kw in chunk_lower for kw in keywords):
-                relevant.append(chunk.strip())
-            if len(relevant) >= max_chunks:
-                break
-        logging.info(f"[LocalContext] Relevant chunks found: {len(relevant)}")
-        for i, chunk in enumerate(relevant):
-            logging.info(f"[LocalContext] Chunk {i+1}: {chunk[:200]}...")
-        if relevant:
-            return '\n\n'.join(relevant)
+        relevant = [chunk.strip() for chunk in chunks if any(kw in chunk.lower() for kw in keywords)]
+
+        logging.info(f"[LocalContext] Found {len(relevant)} matching chunks.")
+        if len(relevant) >= MIN_LOCAL_MATCHES_REQUIRED:
+            limited_relevant = relevant[:max_chunks]
+            logging.info(f"[LocalContext] Using {len(limited_relevant)} chunks for prompt.")
+            return '\n\n'.join(limited_relevant)
+        else:
+            return None
     except Exception as e:
-        logging.error(f"Failed to read local context: {e}")
-    return None
+        logging.error(f"[LocalContext] Error: {e}")
+        return None
 
 def build_prompt(query, serper_api_key):
-    # First, try to get context from extracted_text_trocr.txt
     local_ctx = fetch_local_context(query)
     if local_ctx:
+        logging.info("[Prompt] Using LOCAL context.")
         messages = [
-            {"role": "system", "content": f"You are a helpful assistant,which concise the infos and explain it maximum 5 lines:\n\n{local_ctx}"},
+            {"role": "system", "content": f"You are a helpful assistant. Concisely explain the following in 5 lines:\n\n{local_ctx}"},
             {"role": "user", "content": query}
         ]
         prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-        return prompt, []  # No sources for local context
-    # Fallback to web search (Serper)
+        return prompt, []
+
+    logging.info("[Prompt] Using WEB fallback via Serper.")
     web = fetch_web_results(query, serper_api_key)
     if not web:
         return None, []
-    # Pick the best 1-3 results with snippets
     best_results = [r for r in web if r.get('snippet')][:3]
     ctx = "\n\n".join(
         f"{r.get('title')}\n{r.get('snippet')}\nSource: {r.get('link')}"
@@ -203,7 +218,7 @@ def build_prompt(query, serper_api_key):
     )
     sources = [r.get('link') for r in best_results if r.get('link')]
     messages = [
-        {"role": "system", "content": f"You are a helpful assistant,which concise the infos and explain it maximum 5 lines:\n\n{ctx}"},
+        {"role": "system", "content": f"You are a helpful assistant. Concisely explain the following in 5 lines:\n\n{ctx}"},
         {"role": "user", "content": query}
     ]
     prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
@@ -214,4 +229,4 @@ def generate(prompt):
     return result.split(prompt)[-1].strip()
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8001, debug=True) 
+    app.run(host="0.0.0.0", port=8001, debug=True)
