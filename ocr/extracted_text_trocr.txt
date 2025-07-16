@@ -1,92 +1,606 @@
 --- Page 1 ---
-Hansel Thomas Dsouza
+2024 4th International Conference on Ubiquitous Computing and Intelligent Information Systems (ICUIS) | 979-8-3315-2963-5/24/$31.00 ©2024 IEEE | DOI: 10.1109/ICUIS64676.2024.10866122
 
-Mangalore, Karnataka, India | P: +91 8296229868 | hanseldsouza6904(@email.com
-Github | LinkedIn
+Proceedings of the Fourth International Conference on Ubiquitous Computing and Intelligent Information Systems (ICUIS-2024)
 
-Tam a passionate Full Stack Developer with a strong interest in AI and impactful technology. I enjoy building practical solutions,
-exploring new tools, and constantly improving my skills through real-world projects and hackathons. I believe in writing clean,
-efficient code and learning by doing.
+IEEE Xplore Part Number: CFP24UG3-ART; ISBN: 979-8-3315-2963-5
 
-EDUCATION
+An AI-Powered Application to Enhance Cognitive
+Health and Provide Caregiver Support for Dementia
+Patients
 
-YENEPOYA INSTITUTE OF TECHNOLOGY Moodbidti, Karnataka
-B.E in Computer Science Engineering Expected April 2026
-THE LEARNING CENTRE Mangalore, Karnataka
-PCMC (Physics , Chemistry , Mathematics , Compute Science) Oct 2020 - Mar 2022
-OUR OWN ENGLISH HIGH SCHOOL SHARJAH (BOYS BRANCH) Sharjah, UAE
-Study Abroad Program in International Business and Globalization 2008 - 2020
-SKILLS
+Kirti Lulle
+Department of Computer Engineering
+G. H. Raisoni College of Engineering
+and Management
+Pune, India
+kirti.lulle.cs@ghrcem.raisoni.net
 
-Frontend: React, Tailwind CSS, HTML, CSS, GSAP, JavaScript
+Pooja Agrawal
+Department of Computer Engineering
+G. H. Raisoni College of Engineering
 
-Backend: Flask, FastAPI, Node.js, Firebase Functions
+and Management
+Pune, India
+pooja.agrawal.cs@ghrcem.raisoni.net
 
-Database: Firebase Firestore
+Mansi Amrutwar
+Department of Computer Engineering
+G. H. Raisoni College of Engineering
 
-Programming & Problem Solving: Strong grasp of Data Structures & Algorithms; doing LeetCode problems; regularly
-practice competitive coding; good grasp of Python programming,
+and Management
 
-WORK EXPERIENCE
+Pune, India
+mansi.amrutwar.cs@ghrcem.raisoni.net
 
-POST OPERATIVE REHABILITATION APP (3 Member project for Yenepoya Hospital) Feb 2025 — Ongoing
-(OpenCV, Pose Estimation, Play.ht API, Firebase Authentication, Firebase Firestore, React)
+Dr Simran Khiani
+Head of Department (Computer
+Engineering)
+G. H. Raisoni College of Engineering
+and Management
+Pune, India
+simran. khiani@raisoni.net
 
-e Built a mobile-first rehabilitation platform to analyze real-time knee and hip joint angles using OpenCV and pose estimation.
+Abstract: Dementia, a slowly progressing nerve disorder, has
+millions of sufferers around the world. This paper proposes an
+Al-powered app to promote cognitive health and help to
+dementia patients' caregivers. The application contains a
+machine learning model for early dementia detection,
+preventive advice, location tracking, memory workout, digital
+brain games, and cognitive rehabilitation tools. Created with
+Flutter for universal device support and Firebase for backend
+help, this tool will help enhance the quality of life for patients
+and lessen the burden on caregivers. A new evaluation
+methodology and comparative analysis prove its effectiveness.
 
-e Integrated Play.ht API to deliver multilingual voice instructions using a cloned doctor’s voice for guided recovery.
+Keywords— Dementia Care (DC); Serious Games (SG);
+Cognitive Assessment (CA); Real-Time Location Tracking
+(RTL); Machine Learning (ML); Artificial Intelligence (AD;
+Healthcare Applications (HA); Preventive Care (PC); Cognitive
+Rehabilitation (CR); Predictive Analytics (PA); GPS
+Monitoring (GPS); Early Diagnosis (ED); Cross-Platform
+Development (CPD); User Experience (UX); Responsive Design
+(RD); Mobile Health (mHealth); Android Application
+Development (AAD); Dart Programming Language, Flutter
+Framework (FF); Firebase Integration (FI); Version Control
+Systems; Deep Learning Frameworks.
 
-e Firebase is used for user authentication and to automatically store daily movement data in the cloud.
+I. INTRODUCTION
 
-e Designed separate dashboards for doctor and patients with progress graphs, login access , recovery tracking , and movement
-history
+Due to the development our societies are experiencing
+dementia and other cognitive impairments become more and
+more a problem in the public health sector. Dementia, which
+is caused by cognitive decline, involves millions of people all
+over the world and creates issues both for the patients and for
+the caregivers. The traditional methods of care require a lot
+of resources and are often not available. The paper presents
+the AI mobile application that is able to detect early, monitor
+in real-time and provide individualized cognitive support. For
+instance, while smart analytics identifies the risks, through
+the use of interactive games and location tracking, the disease
 
-PROJECTS
+can be managed holistically thus, improving accessibility and
+effectiveness in dementia care.
 
-ADAPTIPLAN AI - INTELLIGENT SCHEDULING ASSISTANT Apr 2025
+As our society advances, the prevalence of dementia and
+other cognitive impairments is becoming an increasingly
+significant public health concern. Dementia, characterized by
+the deterioration of cognitive functions, affects millions of
+individuals worldwide. The current methods of dementia care
+are often resource-intensive and may not be accessible to
+everyone, underscoring the need for innovative solutions that
+leverage modern technology. Artificial intelligence (AI) and
+mobile health (mHealth) technologies offer promising
+avenues to enhance dementia care through early detection,
+personalized support, and improved management. The
+proposed project aims to develop an Al-powered mobile
+application designed to support dementia patients and their
+caregivers. The application will predict the likelihood of
+dementia based on user-input parameters and provide a
+comprehensive suite of tools to improve cognitive function,
+ensure patient safety, and facilitate routine management. By
+integrating predictive analytics, cognitive exercises, and real-
+time monitoring, this application seeks to transform dementia
+care, accessible and responsive to the needs of both patients
+and caregivers.
 
-(React, Vite, Tatlwind CSS, FastAPI, Firestore, Google OR-Tools, Scikit-learn, GSAP)
+Il. LITERATURE SURVEY
 
-e Developed an AI-driven scheduling platform with React drag-and-drop calendar UI, supporting multi-day events and
-color-coded employee task assignments in a 3-person team 36 hours hackathon.
+The integration of artificial intelligence (AJ) into healthcare
+has led to transformative advancements, particularly in
+rehabilitation and dementia care. This literature review
+synthesizes insights from recent studies, highlighting the
+impact, challenges, and future directions of Al-powered
+solutions in these domains.
 
-e@ Implemented backend scheduling optimization using Google OR-Tools and bottleneck prediction with Scikit-learn; used
-FastAPI and Firestore for real-time data handling.
+93
 
-e Ensured smooth UX with GSAP animations, feedback-based dynamic rescheduling, and an admin dashboard for efficient
-task and employee management.
-
-AI-POWERED HEALTH ASSISTANT Dec 2024
-
-(React, Gemini API, Firebase Authentication, Firebase Firestore, Tailwind CSS)
-
-e@ Developed an intelligent chatbot using Gemini API to provide real-time, personalized health advice with a clean React UI
-styled by Tailwind CSS, optimized for desktop and mobile.
-
-e Implemented secure login with Firebase Authentication and used Firestore to store and manage chat history for persistent,
-contextual user interactions.
+Authorized licensed use limited to: VTU Consogtiuny Bowsloagad pn aidy NBG R2503I41 24:31 UTC from IEEE Xplore. Restrictions apply.
 
 
 --- Page 2 ---
-ACTIVITIES
+Proceedings of the Fourth International Conference on Ubiquitous Computing and Intelligent Information Systems (ICUIS-2024)
 
-Participated in 4 major hackathons, building solutions in AI, accessibility , and public safety
+IEEE Xplore Part Number: CFP24UG3-ART; ISBN: 979-8-3315-2963-5
 
-e AI Health Bot — Yenepoya Institute of Technology, Jan 2024
-e Sign Language Detection System — Srinivas University Sep 2024
-e@ Women’s Safety App — Mumbai Hacks, part of Guinness World Record for largest GenAI hackathon Oct 2024
-e AdaptiPlan AI — St. Joseph’s Engineering College Apr 2025
+Khalid et al. [1] provide a comprehensive overview of Al-
+powered solutions in the rehabilitation process, emphasizing
+recent improvements and future trends. The authors discuss
+the role of AI in personalizing therapy, monitoring progress,
+and enhancing patient outcomes. Key advancements include
+machine learning algorithms for movement analysis and Al-
+driven devices like exoskeletons that aid mobility. However,
+the authors also point to challenges such as ethical concerns,
+data privacy, and the need for interdisciplinary collaboration
+to optimize these technologies. Velagaleti et. al [2] explores
+the feasibility and acceptability of an Al-powered virtual
+reality (VR) and augmented reality (AR) platform for
+cognitive rehabilitation, specifically targeting patients with
+Alzheimer’s disease and dementia. The study demonstrates
+that such platforms can improve cognitive engagement and
+reduce caregiver burden. Despite these benefits, the research
+identifies barriers such as the high cost of technology, the
+digital divide, and the need for user-friendly interfaces
+tailored to older adults. Milella, Russo, and Bandini [3]
+systematically review Al-powered solutions designed to
+support informal caregivers in their decision-making
+processes. The authors highlight tools that provide
+personalized care recommendations, monitor patient health,
+and predict potential health deterioration. These solutions
+have shown promise in reducing caregiver stress and
+enhancing decision-making efficiency. The review also notes
+that caregiver training and integration into care workflows
+remain critical for successful adoption.
 
-Paper Presentation
+Hasan et al. [4] introduce a novel conversational AI approach
+to empower caregivers of Alzheimer’s patients. This solution
+provides real-time, personalized communication support and
+fosters better caregiver-patient interactions. The study
+underscores the potential of conversational AI to improve
+caregivers’ emotional well-being and patients' quality of life,
+while also emphasizing the importance of ensuring culturally
+sensitive and ethically sound AI applications. Su et al. [5]
+examine the intersection of 6G and AI technologies for
+dementia care, offering a forward-looking analysis of how
+next-generation connectivity can enhance AI applications.
+The authors identify potential use cases such as continuous
+health monitoring, predictive analytics, and remote
+interventions. They also highlight challenges, including
+infrastructure requirements, cybersecurity risks, and the need
+for regulatory frameworks to ensure equitable access.
 
-May 2024
-e@ Technical Paper Presentation on AI & ML, organized by IBM ICE,Yenepoya Institute of Technology
+Kim, Han, and Bae [6] focus on the transformative potential
+of large language models (LLMs) in Alzheimer’s digital
+caregiving. The study illustrates how LLMs can facilitate
+personalized care planning, symptom tracking, and caregiver
+education. The authors call for further research to address
+limitations such as data bias and the interpretability of Al
+outputs. Kale et al. [7] explore Al-driven innovations for
+Alzheimer’s disease, emphasizing early diagnosis,
+personalized treatment, and prognostic modeling. The study
+highlights advancements in deep learning techniques for
+analyzing medical imaging and biomarkers. These tools have
+significantly improved diagnostic accuracy and enabled the
+development of individualized treatment plans. However, the
+authors caution that ethical considerations and the integration
+of Al into clinical practice require careful attention. Tomar et
+al. [8] provide a comprehensive exploration of Al-powered
 
-ACHIEVEMENTS
+diagnostic tools for Alzheimer’s detection and prediction.
+Their work highlights the potential of AI to analyze
+multimodal data, such as imaging, genomics, and clinical
+records, to achieve early and accurate diagnoses. They also
+stress the importance of developing scalable and accessible
+diagnostic solutions to benefit diverse patient populations.
 
-e@ Secured 3rd Place — Technical Paper Presentation on AI & ML, organized by IBM ICE,Yenepoya Institute of Technology
-— May 2024
+Il]. PROPOSED DEMENTIA CARE APPLICATION DESIGN
 
-e Achieved 3rd place in AdaptiPlan AI project at St. Joseph’s Engineering College Hackathon — Apr 2025
+This section outlines the key strategies and improvements
+incorporated into the proposed dementia care application to
+enhance quality, performance, precision, safety, progress
+tracking, and real-time functionality.
+
+To enhance quality, the application offers a personalized user
+experience by dynamically adjusting the difficulty levels of
+cognitive games and exercises based on user performance.
+This approach keeps patients engaged without causing
+overwhelm or boredom. Prediction models leverage diverse
+inputs such as medical history, demographic data, and
+lifestyle factors to provide tailored and accurate risk
+assessments. The comprehensive feature set integrates
+detection, prevention, rehabilitation, and caregiver support
+tools into a unified platform for dementia care. Enriched with
+educational content, reminders, and community support
+features, the application promotes sustained engagement and
+overall user satisfaction. Additionally, real-time feedback
+mechanisms on patient activities like game performance and
+medication adherence empower caregivers to intervene
+proactively, improving outcomes. User surveys and in-app
+feedback channels further ensure that the application evolves
+to meet caregiver needs. Performance is enhanced through
+machine learning model optimization, with the Random
+Forest model via hyperparameter tuning. Regular model
+evaluation and retraining on updated datasets enable the
+system to adapt to changing patient data, ensuring robust
+performance. Efficient backend systems, powered by
+Firebase, provide real-time data synchronization and secure
+storage, delivering low latency and high reliability even
+under heavy usage. Load balancing techniques are
+implemented to handle peak traffic, especially during
+emergencies, ensuring uninterrupted service.
+
+The system’s real-time GPS tracking capabilities are
+achieved through Firebase integration, which continuously
+updates patient locations and synchronizes this data with
+caregivers. Secure location data storage ensures privacy
+while offering instant access to authorized users. Geofencing
+features allow caregivers to define safe zones for patients,
+triggering immediate alerts if these zones are breached. GPS
+data is updated every five seconds to maintain accuracy while
+optimizing battery usage. Backup location services, such as
+cell tower triangulation, ensure reliable tracking even in areas
+with weak GPS signals. Precision is a key focus, achieved
+through Artificial Neural Networks to detect complex
+patterns in patient data. Data augmentation methods improve
+model robustness against imbalanced datasets. Preprocessing
+steps, including data validation and cleaning, mitigate the
+effects of outliers, missing values, and noise, ensuring the
+accuracy of predictions. Regular audits of patient data further
+enhance the application’s precision and reliability. Tracking
+progress is facilitated through cognitive progress reports that
+monitor patients’ performance in cognitive games and
+
+94
+
+Authorized licensed use limited to: VTU Consogtiuny Bowsloagad pn aidy NBG R2503I41 24:31 UTC from IEEE Xplore. Restrictions apply.
+
+
+--- Page 3 ---
+Proceedings of the Fourth International Conference on Ubiquitous Computing and Intelligent Information Systems (ICUIS-2024)
+
+IEEE Xplore Part Number: CFP24UG3-ART; ISBN: 979-8-3315-2963-5
+
+MMSE assessments on a weekly basis. Visual dashboards
+allow caregivers to identify trends and areas requiring
+intervention. These reports also track adherence to
+medication schedules and participation in rehabilitation
+exercises. Automated scoring and analysis of cognitive
+assessments provide actionable insights for caregivers and
+healthcare providers, enabling informed decision-making and
+personalized care planning. Safety is prioritized through real-
+time alerts for events such as geofence breaches, missed
+medications, or unusual behavior patterns. These alerts are
+delivered instantly via push notifications to caregivers.
+Robust encryption ensures compliance with privacy
+regulations like GDPR and HIPAA, safeguarding patient
+data. User authentication mechanisms, such as two-factor
+authentication, protect against unauthorized access. Future
+enhancements include integrating accelerometer data from
+wearable devices for fall detection and implementing
+anomaly detection algorithms to flag sudden changes in
+patient behavior, enabling timely interventions.
+
+IV. PROPOSED SYSTEM ARCHITECTURE
+
+The proposed system architecture (fig. 1) is structured into
+four primary layers to ensure seamless operation and user
+engagement. The User Interface Layer provides intuitive
+access through features such as login and sign-up, along with
+distinct tabs for detection, prevention, and rehabilitation. The
+Detection Tab Components incorporate input parameters like
+age, gender, genetic predispositions, cognitive test scores,
+and lifestyle factors. These are processed through machine
+learning models that utilize structured data and feature
+extraction techniques to predict dementia risk accurately. At
+the core, the system employs a hybrid model combining a
+Feedforward Neural Network (FNN) and _ ResNet-50,
+achieving an accuracy of 83.5% ona dataset of 10,000 patient
+records. The Prevention and Rehabilitation Tab Components
+include tools for healthy habit education, location tracking,
+medication reminders, and engaging cognitive activities such
+as memory games and books, all aimed at enhancing patient
+outcomes and caregiver support. Supporting these
+functionalities is a robust Backend System, which leverages
+Firebase for secure data management, real-time
+synchronization, and encryption to maintain patient
+confidentiality.
+
+The system’s workflow (fig. 2) begins with Data Collection,
+gathering information such as demographics, cognitive test
+scores, and lifestyle factors from patients and caregivers. This
+data undergoes Preprocessing to clean and organize it,
+followed by Data Splitting into training (80%) and testing
+(20%) subsets. During the Classification phase, the hybrid
+model integrates the FNN and ResNet-50 to analyze features
+and predict dementia risk. Critical factors are identified
+during Feature Selection, focusing on elements like age,
+cognitive test scores, and medical history. The model is then
+trained and optimized to achieve high accuracy. Finally, the
+system outputs detailed risk assessments and insights for
+caregivers and healthcare providers, supporting personalized
+interventions and informed decision-making.
+
+Ua nrc Laer
+Login’ Sign Up. +
+Deco Ta Preven | etttaon to _——
+
+Detection Tab Components Prevention Tab Components
+
+‘Rehabilitation Tab Components
+
+[>| Healthy Habits
+
+muse «|
+
+5. |—> Location Tracking
+son, cen —
+section mie,
+
+Ceca of adel ino
+‘aims
+T ——, Games
+——{ ow sauces }
+Processing |
+Machine eaming Moana
+|_| sffaedfenmdin) [Rena je}
+Centined Opt
+'
+(acy on)
+
+Prediction Resut
+
+Backend
+
+“> mage Data Management
+Date Storage -Firebase
+
+> User Data Management
+
+Fig 1. System Architecture of a Dementia Support
+Application
+
+u
+Getting igh accuracy lve
+'
+
+Predicting the dementia level
+
+Fig 2. Workflow for Dementia Level Prediction
+
+95
+
+Authorized licensed use limited to: VTU Consogtiuny Bowsloagad pn aidy NBG R2503I41 24:31 UTC from IEEE Xplore. Restrictions apply.
+
+
+--- Page 4 ---
+Proceedings of the Fourth International Conference on Ubiquitous Computing and Intelligent Information Systems (ICUIS-2024)
+IEEE Xplore Part Number: CFP24UG3-ART; ISBN: 979-8-3315-2963-5
+
+V. IMPLEMENTATION OF MOBILE APPLICATION
+
+The proposed mobile and web application, CareMe, is
+designed to enhance cognitive health and provide caregiver
+support for dementia patients. The application integrates
+various features aimed at improving cognitive function,
+facilitating rehabilitation, and supporting caregivers in
+managing patient care. The results of the implementation are
+summarized below:
+
+5.1 Mobile Application Implementation
+
+5.1.1 Welcome and Navigation Interfaces:
+
+f
+)
+
+CAREME
+
+Fig 3: Welcome Screen of the CareMe App
+
+Sign In
+
+Please enter Your ID and Password
+
+Sign Up
+
+Please enter Your ID and Password
+
+Password
+
+Set Password
+
+Confirm Password
+
+Fig 4: User Registration and Login Interface
+
+Figures 3 and 4 : The welcome screen introduces users to the
+CareMe app with a simple and user-friendly interface,
+offering options to either "Get Started" or log in if the user
+already has an account.
+
+The registration and login interfaces ensure secure access
+through the creation of personalized accounts by entering a
+name, ID, and password. Password visibility toggles enhance
+usability.
+
+5.1.2 Core Functionalities:
+
+Figure 5: The overview screen categorizes the
+app's functionalities into three main modules:
+detection, prevention, and rehabilitation, ensuring
+targeted interventions for users. A built-in GPS
+tracking feature provides navigation support,
+enhancing patient safety.
+
+Peanene
+
+lam here to Help You
+
+ii}
+
+fu 9 KA
+
+Fig 5: Overview of the CAREME mobile application
+
+5.1.3 Interactive Cognitive Exercises:
+
+Figures 6(a) and 6(b): The cognitive training
+module includes word-based puzzles such as word
+selection and word formation tasks, aimed at
+improving linguistic and problem-solving abilities.
+Figure 7: An ocean-themed word search game
+further supports cognitive stimulation in an
+engaging and interactive manner.
+
+96
+
+Authorized licensed use limited to: VTU Consogtiuny Bowsloagad pn aidy NBG R2503I41 24:31 UTC from IEEE Xplore. Restrictions apply.
+
+
+--- Page 5 ---
+Proceedings of the Fourth International Conference on Ubiquitous Computing and Intelligent Information Systems (ICUIS-2024)
+IEEE Xplore Part Number: CFP24UG3-ART; ISBN: 979-8-3315-2963-5
+
+5.1.4 Clinical and Caregiver Tools
+
+Peaneme
+
+Choose the Correct Word
+
+Figure 8: A Mini-Mental Examination feature facilitates early
+detection of cognitive decline through questions targeting
+memory and orientation.
+
+A B Figure 9: The tabular input form allows caregivers to enter
+and manage patient information efficiently.
+
+? D Figure 10: A hybrid model leveraging FNN and ResNet-50
+architectures is incorporated for processing MRI images.
+Users can upload MRI scans, which are analyzed to predict
+dementia risk, ensuring accurate and timely intervention.
+
+dP CAREME
+
+Mini-Mental Examination
+
+Figure 6 a) Word Selection Puzzle
+
+Peaneme
+
+Guess the Correct Word
+
+Figure 8: Mini-Mental Examination Questions
+
+Dementia Prediction Model
+
+Figure 6 b) Word Formation Puzzle aa
+
+CP careme
+
+Ocean Word Search
+[a[T[e[P[i[R[alt|
+
+S/N) o|m|m)x|> m
+alFlslo|a|m/a/-/<
+
+ah
+
+Upload MRI Image
+
+Figure 7 Ocean-Themed Word Search
+
+Figure 9 Tabular Input Form
+
+97
+Authorized licensed use limited to: VTU Consogtiuny Bowsloagad pn aidy NBG R2503I41 24:31 UTC from IEEE Xplore. Restrictions apply.
+
+
+--- Page 6 ---
+Proceedings of the Fourth International Conference on Ubiquitous Computing and Intelligent Information Systems (ICUIS-2024)
+
+IEEE Xplore Part Number: CFP24UG3-ART; ISBN: 979-8-3315-2963-5
+
+Upload MRI Image
+
+Figure 10 MRI Upload and Prediction
+
+VI. | CONCLUSION
+
+The proposed Al-powered dementia care application
+successfully integrates predictive analytics, cognitive
+rehabilitation, and real-me monitoring into a_ unified
+platform. The hybrid model combining FNN and ResNet-50
+ensures accurate dementia risk prediction, while features like
+cognitive games, medical reminders, and GPS tracking
+enhance patient safety and quality of life. Additionally,
+caregiver support tools reduce the burden of care, making this
+app a comprehensive solution for dementia management.
+
+ACKNOWLEDGMENT
+
+The authors want to thank the Head of the Department of
+Computer Engineering, Dr. Simran Khiani, and the entire
+faculty members of G.H. Raisoni College of Engineering &
+Management, Pune, in the form of Dr. Pushpi Rani and Dr.
+Sonali Patil for their valuable support, guidance, and
+encouragement behind the successful accomplishment of the
+research work. We are well-satisfied with the contribution
+received from them toward our academic as well as
+professional careers.
+
+REFERENCES
+
+1] Khalid, Umamah bint, Muddasar Naeem, Fabrizio Stasolla, Madiha
+Haider Syed, Musarat Abbas, and Antonio Coronato. "Impact of AI-
+powered solutions in rehabilitation process: Recent improvements and
+future trends." International Journal of General Medicine (2024):
+943-969.
+
+2] = Milella, Frida, D. Russo, and Stefania Bandini. "AlI-powered solutions
+to support informal caregivers in their decision-making: a systematic
+review of the literature." OBM GERIATRICS 7, no. 4 (2023).
+
+3] Velagaleti, Sesha Bhargavi. "A Study on Feasibility and Acceptability
+of an Al-Powered VR/AR Cognitive Rehabilitation Platform for
+Patients with Alzheimer’s Disease and Dementia." In International
+Conference on Data Science, Machine Learning and Applications, pp.
+1079-1083. Singapore: Springer Nature Singapore, 2023.
+
+4] Hasan, Wordh Ul, Kimia Tuz Zaman, Xin Wang, Juan Li, Bo Xie, and
+Cui Tao. "Empowering Alzheimer’s caregivers with conversational
+Al: a novel approach for enhanced communication and personalized
+support." npj Biomedical Innovations 1, no. 1 (2024): 1-10.
+
+5] Su, Zhaohui, Barry L. Bentley, Dean McDonnell, Junaid Ahmad,
+Jiguang He, Feng Shi, Kazuaki Takeuchi, Ali Cheshmehzangi, and
+Claudimar Pereira da Veiga. "6G and artificial intelligence
+technologies for dementia care: literature review and_ practical
+s." Journal of Medical Internet Research 24, no. 4 (2022):
+
+30503.
+
+6] Kim, Sujin, Dong Y. Han, and Jihye Bae. "Transforming Alzheimer’s
+Digital Caregiving through Large Language Models." Current
+Alzheimer Research (2024).
+
+(7]
+
+[8]
+
+Kale, Mayur B., Nitu L. Wankhede, Rupali S. Pawar, Suhas Ballal,
+Rohit Kumawat, Manish Goswami, Mohammad Khalid et al. "AI-
+Driven Innovations in Alzheimer's Disease: Integrating Early
+Diagnosis, Personalized Treatment, and Prognostic
+Modelling." Ageing Research Reviews (2024): 102497.
+
+Tomar, Vatsala, Arvind Kumar, Vandana Kate, Sandeep Kumar, and
+Prasanthi Gottumukkala. "Advancements in Alzheimer's Diagnosis: A
+Comprehensive Exploration of Al-Powered Diagnostic Tools and
+Software." In Al-Driven Alzheimer's Disease Detection and
+Prediction, pp. 69-80. IGI Global, 2024.
+
+98
+
+Authorized licensed use limited to: VTU Consogtiuny Bowsloagad pn aidy NBG R2503I41 24:31 UTC from IEEE Xplore. Restrictions apply.
 
 

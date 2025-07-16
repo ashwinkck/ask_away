@@ -180,7 +180,7 @@ def build_prompt(query, serper_api_key):
     local_ctx = fetch_local_context(query)
     if local_ctx:
         messages = [
-            {"role": "system", "content": f"You are a helpful assistant. Use ONLY the following information from the provided document to answer and include references to the text where possible:\n\n{local_ctx}"},
+            {"role": "system", "content": f"You are a helpful assistant,which concise the infos and explain it maximum 5 lines:\n\n{local_ctx}"},
             {"role": "user", "content": query}
         ]
         prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
@@ -194,7 +194,7 @@ def build_prompt(query, serper_api_key):
         for r in web[:3] if r.get('snippet')
     )
     messages = [
-        {"role": "system", "content": f"You are a helpful assistant. Use ONLY the following information and include source links:\n\n{ctx}"},
+        {"role": "system", "content": f"You are a helpful assistant,which concise the infos and explain it maximum 5 lines:\n\n{ctx}"},
         {"role": "user", "content": query}
     ]
     prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
