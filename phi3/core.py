@@ -3,6 +3,9 @@ from flask_cors import CORS
 import logging
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 import requests
+import os
+import re
+import json
 
 logging.basicConfig(level=logging.INFO)
 
@@ -20,6 +23,23 @@ app = Flask(__name__)
 CORS(app, supports_credentials=True, origins=["*"])
 
 SERPER_API_KEY = "07a71ac759204c2fafccf9289fa46481bf8b252b"
+EXTRACTED_TEXT_PATH = os.path.join(os.path.dirname(__file__), '..', 'extracted_text_trocr.txt')
+ALLOWED_SITES_PATH = os.path.join(os.path.dirname(__file__), '..', 'allowed_sites.json')
+
+def load_allowed_sites():
+    if os.path.exists(ALLOWED_SITES_PATH):
+        try:
+            with open(ALLOWED_SITES_PATH, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            if isinstance(data, list):
+                return data
+            elif isinstance(data, dict) and 'sites' in data:
+                return data['sites']
+        except Exception as e:
+            logging.error(f"Failed to load allowed sites: {e}")
+    return []
+
+ALLOWED_SITES = load_allowed_sites()
 
 @app.route("/llm/models", methods=["GET"])
 def list_models():
@@ -73,21 +93,70 @@ def chat_completions():
     return jsonify(response)
 
 def fetch_web_results(q, serper_api_key):
+    # Add site restriction to the query if allowed sites are specified
+    if ALLOWED_SITES:
+        site_filter = " OR ".join([f"site:{site}" for site in ALLOWED_SITES])
+        filtered_query = f"{q} {site_filter}"
+    else:
+        filtered_query = q
     try:
         res = requests.post(
             "https://google.serper.dev/search",
             headers={"X-API-KEY": serper_api_key},
-            json={"q": q},
+            json={"q": filtered_query},
             timeout=5
         )
         if res.status_code == 200:
-            return res.json().get("organic", [])
+            # Optionally filter results to only allowed sites
+            results = res.json().get("organic", [])
+            if ALLOWED_SITES:
+                results = [r for r in results if any(site in r.get('link', '') for site in ALLOWED_SITES)]
+            return results
         logging.warning(f"Search API error: {res.status_code} {res.text}")
     except requests.RequestException as e:
         logging.error(f"Web search failed: {e}")
     return []
 
+# Utility to search extracted_text_trocr.txt for relevant context
+def fetch_local_context(query, max_chunks=3):
+    if not os.path.exists(EXTRACTED_TEXT_PATH):
+        return None
+    try:
+        with open(EXTRACTED_TEXT_PATH, 'r', encoding='utf-8') as f:
+            text = f.read()
+        # Extract keywords from the query (ignore common stopwords and short words)
+        stopwords = set([
+            'the', 'and', 'for', 'with', 'that', 'this', 'from', 'what', 'who', 'when', 'where', 'how', 'why', 'are', 'was', 'is', 'a', 'an', 'to', 'of', 'in', 'on', 'at', 'by', 'as', 'it', 'be', 'or', 'if', 'do', 'does', 'did', 'can', 'could', 'should', 'would', 'but', 'so', 'not', 'about', 'into', 'which', 'their', 'them', 'they', 'you', 'your', 'we', 'our', 'us', 'he', 'she', 'his', 'her', 'him', 'its', 'have', 'has', 'had', 'will', 'just', 'than', 'then', 'too', 'also', 'more', 'most', 'some', 'such', 'no', 'nor', 'very', 'over', 'under', 'out', 'up', 'down', 'off', 'again', 'once', 'only', 'all', 'any', 'each', 'few', 'other', 'own', 'same', 'so', 'because', 'until', 'while', 'during', 'before', 'after', 'above', 'below', 'between', 'both', 'through', 'further', 'my', 'me', 'your', 'yours', 'theirs', 'ours', 'mine', 'yourselves', 'ourselves', 'themselves', 'himself', 'herself', 'itself', 'am', 'were', 'being', 'been', 'having', 'doing', 'against', 'off', 'per', 'via', 'etc'
+        ])
+        words = re.findall(r'\b\w+\b', query.lower())
+        keywords = [w for w in words if w not in stopwords and len(w) > 2]
+        if not keywords:
+            return None
+        chunks = text.split('\n--- Page')
+        relevant = []
+        for chunk in chunks:
+            chunk_lower = chunk.lower()
+            if any(kw in chunk_lower for kw in keywords):
+                relevant.append(chunk.strip())
+            if len(relevant) >= max_chunks:
+                break
+        if relevant:
+            return '\n\n'.join(relevant)
+    except Exception as e:
+        logging.error(f"Failed to read local context: {e}")
+    return None
+
 def build_prompt(query, serper_api_key):
+    # First, try to get context from extracted_text_trocr.txt
+    local_ctx = fetch_local_context(query)
+    if local_ctx:
+        messages = [
+            {"role": "system", "content": f"You are a helpful assistant. Use ONLY the following information from the provided document to answer and include references to the text where possible:\n\n{local_ctx}"},
+            {"role": "user", "content": query}
+        ]
+        prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+        return prompt
+    # Fallback to web search (Serper)
     web = fetch_web_results(query, serper_api_key)
     if not web:
         return None
