@@ -1,66 +1,772 @@
---- Page 1 ---
-- - - -
+--- Module_4[1].pdf ---
+page_1
+Module 4
 
---- Page 2 ---
-== = = = = = = =
+Ethereum
 
---- Page 3 ---
-- - - - - - -
 
---- Page 4 ---
--
+page_10
+Contract Account:
 
---- Page 5 ---
-The same is a great deal of the
+> Contract accounts are controlled by contract
+codes.
 
---- Page 6 ---
-- - - - - -
+> These codes are stored with the account.
 
---- Page 7 ---
-- - - - - -
+> Each contract account has an ether balance
+associated with it.
 
---- Page 8 ---
--
 
---- Page 9 ---
-== = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+page_11
+How Does Ethereum Work?
 
---- Page 10 ---
--
+e Ethereum implements an execution
+environment called Ethereum Virtual Machine
+(EVM).
 
---- Page 11 ---
-- - - - - - - -
+¢ When a transaction triggers a smart contract
+all the nodes of the network will execute every
+instruction.
 
---- Page 12 ---
-- - - - - - - - - -
+¢ All the nodes will run the EVM as part of the
+block verification.
 
---- Page 13 ---
-- - - - - - -
 
---- Page 14 ---
-E
+page_12
+e All the nodes on the network must perform
 
---- Page 15 ---
--
+the same calculations for keeping their ledgers
+In sync.
 
---- Page 16 ---
-: : : : : : : : : : : : : :
+¢ Every transaction must include:
 
---- Page 17 ---
--
+— Gas limit (amount of processing time for
+transaction)
 
---- Page 18 ---
-THE
+— Transaction Fee (that the sender is willing to pay
+for the transaction).
 
---- Page 19 ---
-- - - - - -
 
---- Page 20 ---
-- - - - - -
+page_13
+The Ethereum blockchain
 
---- Page 21 ---
--
+e Ethereum can be visualized as a transaction-
+based state machine.
 
---- Page 22 ---
-- - - - - - -
+¢ In the following diagram, the Ethereum state
+
+transition function is shown, where a
+
+transaction execution has resulted in a state
+transition:
+
+
+page_14
+S Ss
+Initial state Final state
+
+Address: 4718bf7a Address: 4718bf7a
+
+Balance: 10 ETH Transaction Balance: 7.5 ETH
+
+Sender: 4718bf7a
+Recipient: 741f7a2
+
+Gas price: 0.5 ETH
+Address: 741f7a2 taste Address: 741f7a2
+
+Balance: 10 ETH . Balance: 12 ETH
+
+Storage: [0, 100, ETH, A] ; . Storage: [0,100, ETH, A]
+
+
+
+page_15
+Ethereum — a user's perspective
+
+1. First, either a user requests money by
+sending the request to the sender, or the
+sender decides to send money to the
+receiver.
+
+(Jaxx Ethereum wallet software is used here)
+
+
+page_16
+For example, there are two users, Bashir and
+Irshad.
+
+If Irshad requests money from Bashir, then she
+can send a request to Bashir by using a QR
+code.
+
+Once Bashir receives this request he will
+either scan the QR code or manually type in
+Irshad's Ethereum address and send the ether
+to Irshad's address.
+
+This QR code can be shared via email, text, or
+any other communication method:
+
+
+page_17
+Tap to copy this address. Share it with the sender
+via email or text.
+
+OxeFc7aEF5150836955e9CEa8Bc360D57925e850...
+
+Figure 11.2: QR code as shown in the blockchain wallet application
+
+
+page_18
+2. Once Bashir receives this request he will either scan this QR
+code or copy the Ethereum address in the Ethereum wallet
+software and initiate a transaction
+
+
+
+page_19
+3.The request is then broadcasted to the
+Ethereum network.
+
+(The transaction is digitally signed by the sender
+as proof that he is the owner of the ether)
+
+4. This transaction is then picked up by nodes
+called miners on the Ethereum network for
+
+verification and inclusion in the block.
+
+5. Once it is verified and included in the block,
+the PoW process starts
+
+
+page_2
+Ethereum is like a decentralized computing
+network.
+
+It allows developers to create and run
+applications on its blockchain using smart
+contracts.
+
+Ethereum was initially released in 2015.
+Within two years of its release, it was ranked
+the second-best blockchain network, Bitcoin is
+the first.
+
+
+page_20
+6. Once a miner finds the answer to the POW
+
+problem, this block is immediately broadcasted to
+the rest of the nodes, which then verifies the
+
+block and PoW.
+
+7. lf all the checks pass then this block is added to
+the blockchain, and miners are paid rewards
+accordingly.
+
+8. Finally, Irshad gets the ether, and it is shown in
+her wallet software. This is shown in the
+following screenshot:
+
+
+page_21
+RECEIVED
+
+Description
+
+To Oxefe7aefSIS083695S5e9cea8be360d57925e85093
+
+From Oxtce31061b372695b<20d35ec Oadi237c829fed6dc
+
+Date November 18, 2017 @ 1:25pm
+
+Status Confirmed
+
+VIEW ON ETHERSCAN.IO
+
+Figure 11.4: The transaction received in Irshad's blockchain wallet
+
+
+page_22
+¢ On the blockchain, this transaction is
+identified by the following transaction hash:
+
+Oxc63dce6747e1640abd63ee63027c3352aed8
+cdb92b6a02ae25225666e171009e
+
+¢ The details of this transaction can be
+visualized on the block explorer at
+
+https://etherscan.io/, as shown in the
+
+following screenshot:
+
+
+page_23
+Overview State Changes Comments
+
+@ Transaction Hash: Oxc63dce6747e1640abd63ee63027c3352aed8cdb92b6a02ae25225666e171009e (1)
+© Status: © Success
+
+© Block: 4576084 4659657 Block Confirmations
+
+@ Timestamp: © 780 days 7 hrs ago (Nov-18-2017 01:25:54 PM +UTC)
+@ From: 0x1ce3106fb372695bc2d35ec0ad1237c829f8déde CO
+@ To: Oxefc7aef5150836955e9cea8bc360d57925e85093
+
+© Value: 0.015927244142974896 Ether ($2.29)
+
+© Transaction Fee: 0.000441 Ether ($0.06)
+
+@ Gas Limit: 21,000
+
+© Gas Used by Transaction: 21,000 (100%)
+
+©® Gas Price: 0.000000021 Ether (21 Gwei)
+
+@Nonce Position 14
+
+Figure 11.5: Etherscan Ethereum blockchain block explorer
+
+
+page_24
+The Ethereum network :
+
+is a peer-to-peer network where nodes
+participate in order to maintain the blockchain
+
+and contribute to the consensus mechanism.
+
+Networks can be divided into three types:
+1) The mainnet
+
+2) Testnets
+
+3) Private nets
+
+
+page_25
+The mainnet:
+
+> It is the current live network of Ethereum.
+
+> Its network ID is 1 and its chain ID is also 1.
+The network and chain IDs are used to identify
+the network.
+
+> This can be used to explore the Ethereum
+blockchain.
+
+
+page_26
+Testnets
+> The aim of these test blockchains is to provide
+
+a testing environment for smart contracts and
+Dapps before being deployed to the
+production live blockchain.
+
+> They also allow experimentation and research.
+
+>The main testnet is called Ropsten, which
+contains all the features of other smaller and
+special-purpose testnets that were created for
+specific releases.
+
+
+page_27
+Private nets
+
+> These are private networks that can be
+created by generating a new genesis block.
+
+> a private group of entities start their
+blockchain network and use it as a
+permissioned or consortium blockchain.
+
+
+page_28
+Components of the Ethereum ecosystem
+
+e At the core, there is the Ethereum blockchain running
+on the peer-to-peer Ethereum network.
+
+¢ Secondly, there's an Ethereum client (usually Geth)
+that runs on the nodes and connects to the peer-to-
+peer Ethereum.
+— It provides various functions, such as mining and account
+management.
+
+— The local copy of the blockchain is synchronized regularly
+with the network.
+
+¢ Another component is the web3.js library that allows
+interaction with the geth client via the Remote
+Procedure Call (RPC) interface.
+
+
+page_29
+DApp users
+on the web or
+mobile
+devices or
+desktop
+users via
+different user
+interfaces
+
+Ethereum
+chent users
+via Geth
+
+console
+
+Ethereum
+
+Web 3
+Javascript
+
+JSON
+RPC
+
+Ethereum
+smart
+contract
+developers
+
+client
+(geth)
+
+Wallet users
+
+The internat
+
+i Synching with
+other nodes:
+
+Local blackchain storage
+
+Node3 |*+—*| NodeN
+
+Other Ethereum clients/nodes/miners
+
+Figure 11.6: Ethereum high-level ecosystem/ Ethereum Ecosystem
+
+Architecture
+
+
+page_3
+Ethereum is a Blockchain network that
+introduced a built-in Turing-complete
+programming language that can be used for
+creating various decentralized applications(also
+called Dapps).
+
+The Ethereum network is fueled by its own
+cryptocurrency called ‘ether’.
+
+Ethereum is often called Blockchain 2.0 since it
+proved the potential of blockchain technology
+beyond the financial sector.
+
+
+page_30
+Elements of the Ethereum blockchain
+
+aun fF WN
+
+Keys and addresses
+
+Accounts
+
+Transactions and messages
+
+Ether cryptocurrency/tokens
+
+The EVM
+
+Smart contracts and native contracts
+
+
+page_31
+The Ethereum Virtual Machine (EVM)
+¢ The EVM is a simple stack-based execution machine that
+
+runs bytecode instructions to transform the system state
+
+from one state to another.
+
+> The word size of the EVM is set to 256-bit.
+
+» The stack size is limited to 1,024 elements and is
+based on the Last In, First Out (LIFO) queue.
+
+¢ The EVM is a Turing-complete machine but is limited by
+the amount of gas that is required to run any instruction.
+
+¢ The EVM also supports exception handling.
+
+
+page_32
+There are three main types of storage available for
+contracts and the EVM:
+
+e Memory:
+> The first type is called memory or volatile
+memory, which is a word-addressed_ byte array.
+
+> When a contract finishes its code execution, the
+memory is cleared.
+
+> write operations to the memory can be of 8 or
+256 bits, whereas read operations are limited to 256-
+bit words.
+
+
+page_33
+e Storage:
+
+> The other type is called storage, which is a
+key-value store and is permanently persisted
+on the blockchain.
+
+> Keys and values are each 256 bits wide.
+
+>  Asasecurity measure, storage is only
+accessible by its own respective CAs.
+
+
+page_34
+e Stack:
+> EVMis a stack-based machine, and thus
+
+performs all computations in a data area
+called the stack.
+
+> It has a maximum depth of 1024 elements
+and supports the word size of 256 bits.
+
+
+page_35
+The following diagram shows the design of the
+EVM where:
+
+> The virtual ROM stores the program code
+that is copied into the main memory using the
+CODECOPY instruction.
+
+> The main memory is then read by the EVM
+by referring to the program counter and
+executes instructions step by step.
+
+> The program counter and EVM stack are
+updated accordingly with each instruction
+execution.
+
+
+page_36
+VIRTUAL ROM
+
+POP PUSH MAIN MEMORY
+
+INSTRUCTIONS
+
+STORAGE
+PROGRAM BYTE ARRAY (SYSTEM STATE)
+
+(256 BIT word)
+
+ALUM.
+
+EVM STACK
+32-byte Values
+
+
+
+page_37
+Standard fields in Ethereum transactions:
+1) Nonce:
+The nonce is a number that is incremented by one
+every time a transaction is sent by the sender.
+
+> It must be equal to the number of transactions sent
+and is used as a unique identifier for the transaction.
+
+> Anonce value can only be used once.
+
+> This is used for replay protection on the network.
+
+
+page_38
+2) Gas price:
+The gas price field represents the amount of
+Wei required to execute the transaction.
+
+In other words, this is the amount of Wei you
+are willing to pay for this transaction.
+
+(Wei is the smallest denomination of ether;
+therefore, it is used to count ether)
+
+
+page_39
+3) Gas limit:
+The gas limit field contains the value that represents the
+
+maximum amount of gas that can be consumed to execute
+the transaction.
+
+It is the fee amount, in ether, that a user (for example, the
+sender of the transaction) is willing to pay for
+computation.
+
+4) To:
+
+As the name suggests, the To field is a value that represents
+the address of the recipient of the transaction.
+
+This is a 20 byte value.
+
+5) Value:
+
+Value represents the total number of Wei to be transferred
+to the recipient.
+
+
+page_4
+The consensus mechanism used in Ethereum
+is Proof of Stakes(PoS), which is more energy
+efficient when compared to that used in the
+
+Bitcoin network, that is, Proof of Work(PoW).
+
+
+page_40
+6) Signature:
+The signature is composed of three fields, namely V, R,
+and S.
+
+> These values represent the digital signature (R, S)
+
+and some information that can be used to recover the
+public key (V).
+
+7) Init:
+This represents a byte array of unlimited length that
+specifies the EVM code to be used in the account
+initialization process.
+
+> The code contained in this field is executed only
+once when the account is created for the first time, it
+(init) gets destroyed immediately after that.
+
+
+page_41
+8) Data:
+If the transaction is a message call, then the
+Data field is used instead of init, and
+represents the input data of the message
+call.
+
+> — Itis also unlimited in size and is organized
+as a byte array.
+
+
+page_42
+¢ This structure is visualized in the following
+diagram, where a transaction is a tuple of the
+fields mentioned earlier, which is then
+included in a transaction trie (a modified
+Merkle-Patricia tree(MPT))
+
+¢ Finally, the root node of the transaction trie is
+hashed using a Keccak 256-bit algorithm and
+is included in the block header along with a
+list of transactions in the block:
+
+
+page_43
+Figure 11.7: The relationship between the transaction,
+transaction trie, and block header
+
+Block header
+
+Transaction .
+Transaction Trie
+
+Keccak 256-bit hash
+
+Nonce erat Transaction root
+
+Gas price
+
+Gas limit
+
+To (recipient)
+
+Value
+V, R, S (Sender)
+
+Init or Data
+
+
+
+page_44
+1. Contract Creation Transaction
+
+It is used to create smart contracts on the blockchain.
+The parameters required are:
+
+e The sender
+
+e The transaction originator
+
+e Available gas
+
+e Gas price
+
+e Endowment, which is the amount of ether allocated
+e A byte array of an arbitrary length
+
+e Initialization EVM code
+
+e The current depth of the message call/contract-creation stack
+(the number of items that are already present in the stack)
+
+
+page_45
+¢ the result of a contract creation transaction is
+either a new contract with its balance, or no
+
+new contract is created with no transfer of
+value.
+
+
+page_46
+2) Message call transactions
+
+A message call requires several parameters for execution, as
+follows:
+
+e The sender
+
+e The transaction originator
+
+e The recipient
+
+e The account whose code is to be executed (recipient)
+
+e Available gas
+
+e The value
+
+e The gas price
+
+e An arbitrary-length byte array
+
+e The input data of the call
+
+e The current depth of the message call/contract creation stack
+
+
+page_47
+>  Amessage call is the act of passing a
+message from one account to another.
+
+> — If the destination account has an
+associated EVM code, then the EVM will start
+upon the receipt of the message to perform
+the required operations.
+
+> — If the message sender is an autonomous
+object (external actor), then the call passes
+back any data returned from the EVM
+operation.
+
+
+page_5
+History of Ethereum
+
+¢ 2013: Ethereum was first described in Vitalik
+Buterin’s white paper in 2013 with the goal of
+developing decentralized applications.
+
+¢ 2014: In 2014, EVM was specified in a paper by
+Gavin Wood, and the formal development of
+the software also began.
+
+¢ 2015: In 2015, Ethereum created its genesis
+block marking the official launch of the
+platform.
+
+¢ 2018: In 2018, Ethereum took second place in
+Bitcoin in terms of market capitalization.
+
+
+page_6
+¢ 2021: In 2021, a major network upgrade
+named London included Ethereum
+improvement proposal 1559 and introduced a
+mechanism for reducing transaction fee
+volatility.
+
+¢ 2022: In 2022, Ethereum has shifted from
+PoW( Proof-of-Work ) to PoS( Proof-of-State )
+consensus mechanism, which is also known as
+Ethereum Merge. It has reduced Ethereum’s
+energy consumption by ~ 99.95%.
+
+
+page_7
+Features of Ethereum
+
+¢ Smart contracts: Ethereum allows the creation and
+deployment of smart contracts. Smart contracts are
+created mainly using a programming language called
+solidity. Solidity is an Object Oriented Programming
+language that is comparatively easy to learn.
+
+e Ethereum Virtual Machine (EVM): It is designed to
+
+operate as a runtime environment for compiling and
+deploying Ethereum-based smart contracts.
+
+e Ether: Ether is the cryptocurrency of the Ethereum
+network. It is the only acceptable form of payment for
+transaction fees on the Ethereum network.
+
+
+page_8
+¢ Decentralized applications (Daaps): Dapp has its
+backend code running on a decentralized peer-to-peer
+network. It can have a frontend and user interface
+written in any language to make calls and query data
+from its backend. They operate on Ethereum and
+perform the same function irrespective of the
+environment in which they get executed.
+
+¢ Decentralized autonomous organizations (DAQs): It is
+a decentralized organization that works in a democratic
+and decentralized fashion. DAO relies on smart
+contracts for decision-making or decentralized voting
+systems within the organization
+
+
+page_9
+Type of Ethereum Accounts
+
+Ethereum has two types of accounts:
+1) Externally owned account (EQOA)
+2) Contract Account
+
+(EOA) :
+> They are controlled by private keys.
+>» Each EOA has a public-private key pair.
+
+> The users can send messages by creating and
+signing transactions.
+
 
