@@ -6,6 +6,7 @@ import requests
 import os
 import re
 import json
+import threading
 
 logging.basicConfig(level=logging.INFO)
 
@@ -25,6 +26,20 @@ CORS(app, supports_credentials=True, origins=["*"])
 SERPER_API_KEY = "07a71ac759204c2fafccf9289fa46481bf8b252b"
 EXTRACTED_TEXT_PATH = os.path.join(os.path.dirname(__file__), '..', 'extracted_text_trocr.txt')
 ALLOWED_SITES_PATH = os.path.join(os.path.dirname(__file__), '..', 'allowed_sites.json')
+
+ALLOWED_SITES_LOCK = threading.Lock()
+
+def save_allowed_sites(sites):
+    with ALLOWED_SITES_LOCK:
+        with open(ALLOWED_SITES_PATH, 'w', encoding='utf-8') as f:
+            json.dump(sites, f, indent=2, ensure_ascii=False)
+
+def add_allowed_site(site):
+    sites = load_allowed_sites()
+    if site not in sites:
+        sites.append(site)
+        save_allowed_sites(sites)
+    return sites
 
 def load_allowed_sites():
     if os.path.exists(ALLOWED_SITES_PATH):
@@ -91,6 +106,20 @@ def chat_completions():
         }
     }
     return jsonify(response)
+
+@app.route('/admin/add-allowed-site', methods=['POST'])
+def admin_add_allowed_site():
+    data = request.get_json()
+    site = data.get('site')
+    if not site or not isinstance(site, str):
+        return jsonify({'error': 'Missing or invalid site'}), 400
+    updated_sites = add_allowed_site(site)
+    return jsonify({'allowed_sites': updated_sites}), 200
+
+@app.route('/admin/allowed-sites', methods=['GET'])
+def admin_get_allowed_sites():
+    sites = load_allowed_sites()
+    return jsonify({'allowed_sites': sites}), 200
 
 def fetch_web_results(q, serper_api_key):
     # Add site restriction to the query if allowed sites are specified

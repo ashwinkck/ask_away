@@ -7,8 +7,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import os
 
 # Set your installed Tesseract executable path here
-pytesseract.pytesseract.tesseract_cmd = r"C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
-
+pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 app = Flask(__name__)
 
 def pdf_pages_to_images_from_bytes(pdf_bytes):
