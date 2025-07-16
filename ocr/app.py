@@ -57,5 +57,30 @@ def ocr_extract():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route("/ocr/extract-from-uploaded", methods=["POST"])
+def ocr_extract_from_uploaded():
+    data = request.get_json()
+    if not data or 'filename' not in data:
+        return jsonify({"error": "Missing filename in request."}), 400
+    filename = data['filename']
+    pdf_path = os.path.join('uploaded_pdfs', filename)
+    output_path = 'extracted_text_trocr.txt'
+    if not os.path.exists(pdf_path):
+        return jsonify({"error": f"File not found: {pdf_path}"}), 404
+    try:
+        with open(pdf_path, 'rb') as f:
+            pdf_bytes = f.read()
+        images = pdf_pages_to_images_from_bytes(pdf_bytes)
+        if not images:
+            return jsonify({"error": "No images extracted from PDF."}), 400
+        results = perform_tesseract_ocr_parallel(images)
+        with open(output_path, "w", encoding="utf-8") as out_f:
+            for page_num, text in results:
+                out_f.write(f"--- Page {page_num} ---\n")
+                out_f.write(text + "\n\n")
+        return jsonify({"message": f"Extracted text written to {output_path}"})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8002, debug=True) 

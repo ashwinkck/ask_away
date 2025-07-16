@@ -1,16 +1,13 @@
 from flask import Flask, request, jsonify, Response
 import requests
 from flask_cors import CORS
-import os
+import base64
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True, origins=["*"])
 
 CORE_URL = "http://localhost:8001"
 OCR_URL = "http://localhost:8002"
-
-UPLOAD_DIR = os.path.join(os.getcwd(), 'uploaded_pdfs')
-EXTRACTED_TEXT_PATH = os.path.join(os.getcwd(), 'extracted_text_trocr.txt')
 
 # Proxy for LLM endpoints
 @app.route('/llm/<path:path>', methods=["GET", "POST"])
@@ -38,66 +35,35 @@ def proxy_ocr(path):
         resp = requests.get(url, headers={k: v for k, v in request.headers if k != 'Host'})
     return Response(resp.content, status=resp.status_code, content_type=resp.headers.get('Content-Type'))
 
-@app.route('/ask-pdf', methods=['POST'])
+@app.route('/ask-pdf', methods=["POST"])
 def ask_pdf():
-    if 'file' not in request.files or 'question' not in request.form:
-        return jsonify({'error': 'File and question are required.'}), 400
-
-    file = request.files['file']
-    question = request.form['question']
-
-    # 1. Send PDF to OCR backend
-    ocr_resp = requests.post(
-        f"{OCR_URL}/ocr/extract",
-        files={'file': (file.filename, file.stream, file.mimetype)}
-    )
-    if ocr_resp.status_code != 200:
-        return jsonify({'error': 'OCR failed', 'details': ocr_resp.text}), 500
-
-    extracted = ocr_resp.json().get('text', {})
-    context = "\n\n".join(extracted.values())
-
-    # 2. Send context + question to LLM backend
-    llm_payload = {
-        "messages": [
-            {"role": "system", "content": f"Use ONLY the following context to answer the user's question:\n\n{context}"},
-            {"role": "user", "content": question}
-        ]
-    }
-    llm_resp = requests.post(f"{CORE_URL}/llm/chat/completions", json=llm_payload)
-    if llm_resp.status_code != 200:
-        return jsonify({'error': 'LLM failed', 'details': llm_resp.text}), 500
-
-    return jsonify(llm_resp.json())
-
-@app.route('/upload-pdf', methods=['POST'])
-def upload_pdf():
-    if 'file' not in request.files:
-        return jsonify({'error': 'No file uploaded.'}), 400
-    file = request.files['file']
-    if not file.filename.lower().endswith('.pdf'):
-        return jsonify({'error': 'Only PDF files are allowed.'}), 400
-
-    os.makedirs(UPLOAD_DIR, exist_ok=True)
-    save_path = os.path.join(UPLOAD_DIR, file.filename)
-    file.save(save_path)
-
-    # Send to OCR backend for extraction
-    with open(save_path, 'rb') as f:
-        ocr_resp = requests.post(
-            f"{OCR_URL}/ocr/extract",
-            files={'file': (file.filename, f, file.mimetype)}
-        )
-    if ocr_resp.status_code != 200:
-        return jsonify({'error': 'OCR failed', 'details': ocr_resp.text}), 500
-
-    extracted = ocr_resp.json().get('text', {})
-    with open(EXTRACTED_TEXT_PATH, 'a', encoding='utf-8') as out_f:
-        out_f.write(f"--- {file.filename} ---\n")
-        for page, text in extracted.items():
-            out_f.write(f"{page}\n{text}\n\n")
-
-    return jsonify({'success': True, 'filename': file.filename, 'saved_path': save_path})
+    data = request.get_json()
+    if not data or 'file' not in data or 'question' not in data:
+        return jsonify({"error": "Missing file or question in request."}), 400
+    try:
+        # Decode the base64 PDF
+        pdf_bytes = base64.b64decode(data['file'])
+        # Send to OCR service
+        files = {'file': ('document.pdf', pdf_bytes, 'application/pdf')}
+        ocr_resp = requests.post(f"{OCR_URL}/ocr/extract", files=files)
+        if ocr_resp.status_code != 200:
+            return jsonify({"error": "OCR service error", "details": ocr_resp.text}), 500
+        ocr_data = ocr_resp.json()
+        extracted_text = "\n".join(ocr_data.get("text", {}).values())
+        # Compose prompt for LLM
+        prompt = f"Use the following extracted text from a PDF to answer the question.\n\nExtracted Text:\n{extracted_text}\n\nQuestion: {data['question']}"
+        llm_payload = {
+            "messages": [
+                {"role": "system", "content": "You are a helpful assistant that answers questions based on provided PDF text."},
+                {"role": "user", "content": prompt}
+            ]
+        }
+        llm_resp = requests.post(f"{CORE_URL}/llm/chat/completions", json=llm_payload)
+        if llm_resp.status_code != 200:
+            return jsonify({"error": "LLM service error", "details": llm_resp.text}), 500
+        return jsonify(llm_resp.json())
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route("/")
 def index():
