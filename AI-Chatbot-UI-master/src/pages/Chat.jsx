@@ -148,7 +148,7 @@ const Chat = () => {
 
   return (
     <>
-      <SplineAnimation />
+      <SplineAnimation blur={messages.length > 0} />
       <MotionBox
         minH="100vh"
         bg="transparent"
