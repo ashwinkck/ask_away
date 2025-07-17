@@ -16,11 +16,13 @@ const MotionButton = motion.create(Button)
 
 const ChatInput = ({ onSendMessage, isLoading, hasChatStarted, isCentered }) => {
   const [message, setMessage] = useState('')
-  const bg = useColorModeValue('blue.50', 'blue.900')
-  const borderColor = useColorModeValue('gray.300', 'gray.700')
-  const buttonBg = useColorModeValue('#e3e8f0', '#23272F') // darker for both modes
-  const buttonHoverBg = useColorModeValue('#cbd5e1', '#181A20')
-  const buttonIconColor = useColorModeValue('blue.600', 'blue.300')
+  const bg = useColorModeValue('rgba(255, 255, 255, 0.1)', 'rgba(0, 0, 0, 0.2)')
+  const borderColor = useColorModeValue('rgba(255, 255, 255, 0.3)', 'rgba(255, 255, 255, 0.3)')
+  const buttonBg = useColorModeValue('rgba(255, 255, 255, 0.2)', 'rgba(255, 255, 255, 0.2)')
+  const buttonHoverBg = useColorModeValue('rgba(255, 255, 255, 0.3)', 'rgba(255, 255, 255, 0.3)')
+  const buttonIconColor = useColorModeValue('white', 'white')
+  const textColor = 'white'
+  const placeholderColor = 'rgba(255, 255, 255, 0.7)'
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -54,8 +56,11 @@ const ChatInput = ({ onSendMessage, isLoading, hasChatStarted, isCentered }) => 
             borderWidth="2px"
             pr="4.5rem"
             fontSize="lg"
-            height="64px"
-            boxShadow="md"
+            height="72px"
+            boxShadow="0 4px 20px rgba(0,0,0,0.1)"
+            backdropFilter="blur(10px)"
+            color={textColor}
+            _placeholder={{ color: placeholderColor }}
             _focus={{ boxShadow: '0 0 0 2px #646cff', borderColor: 'blue.400' }}
             autoFocus
           />
@@ -77,8 +82,8 @@ const ChatInput = ({ onSendMessage, isLoading, hasChatStarted, isCentered }) => 
               minW="3rem"
               borderWidth="2px"
               borderColor={borderColor}
-              boxShadow="sm"
-              height="48px"
+              boxShadow="0 2px 10px rgba(0,0,0,0.1)"
+              height="56px"
             >
               {isLoading ? <Spinner size="sm" /> : <FiArrowRight />}
             </MotionButton>
@@ -91,7 +96,7 @@ const ChatInput = ({ onSendMessage, isLoading, hasChatStarted, isCentered }) => 
   // Classic chat input at the bottom
   return (
     <form onSubmit={handleSubmit} style={{ width: '100%' }}>
-      <InputGroup size="md">
+      <InputGroup size="lg">
         <Input
           aria-label="Query input"
           placeholder="Ask a question about the documents..."
@@ -103,14 +108,18 @@ const ChatInput = ({ onSendMessage, isLoading, hasChatStarted, isCentered }) => 
           borderColor={borderColor}
           borderWidth="2px"
           pr="4.5rem"
-          fontSize="md"
-          boxShadow="md"
+          fontSize="lg"
+          height="64px"
+          boxShadow="0 4px 20px rgba(0,0,0,0.1)"
+          backdropFilter="blur(10px)"
+          color={textColor}
+          _placeholder={{ color: placeholderColor }}
           _focus={{ boxShadow: '0 0 0 2px #646cff', borderColor: 'blue.400' }}
         />
         <InputRightElement width="4.5rem">
           <MotionButton
             aria-label="Send button"
-            size="md"
+            size="lg"
             type="submit"
             isDisabled={!message.trim() || isLoading}
             borderRadius="2xl"
@@ -125,7 +134,8 @@ const ChatInput = ({ onSendMessage, isLoading, hasChatStarted, isCentered }) => 
             minW="3rem"
             borderWidth="2px"
             borderColor={borderColor}
-            boxShadow="sm"
+            boxShadow="0 2px 10px rgba(0,0,0,0.1)"
+            height="48px"
           >
             {isLoading ? <Spinner size="sm" /> : <FiArrowRight />}
           </MotionButton>

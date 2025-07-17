@@ -5,7 +5,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: transparent;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -40,17 +40,17 @@ body:focus-within::-webkit-scrollbar-thumb {
 body {
   scrollbar-width: thin;
   scrollbar-color: rgba(100,108,255,0.08) transparent;
-}
-body:hover {
-  scrollbar-color: rgba(100,108,255,0.25) transparent;
-}
-
-body {
   margin: 0;
+  padding: 0;
   display: flex;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: transparent;
+}
+
+html {
+  background-color: transparent;
 }
 
 h1 {
@@ -80,7 +80,7 @@ button:focus-visible {
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #ffffff;
+    background-color: transparent;
   }
   a:hover {
     color: #747bff;

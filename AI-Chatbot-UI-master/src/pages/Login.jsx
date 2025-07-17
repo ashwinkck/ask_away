@@ -10,7 +10,7 @@ const MotionBox = motion(Box)
 const Login = () => {
   const { user } = useAuth()
   const navigate = useNavigate()
-  const bg = useColorModeValue('gray.50', 'gray.900')
+  const bg = useColorModeValue('white', '#000000')
 
   useEffect(() => {
     if (user) {
@@ -21,12 +21,15 @@ const Login = () => {
   return (
     <MotionBox
       minH="100vh"
+      w="100vw"
+      h="100vh"
       bg={bg}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
+      overflow="hidden"
     >
-      <Center minH="100vh">
+      <Center minH="100vh" w="100vw">
         <LoginForm />
       </Center>
     </MotionBox>

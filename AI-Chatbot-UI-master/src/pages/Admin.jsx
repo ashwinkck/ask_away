@@ -1,6 +1,26 @@
 
 import React, { useState, useEffect } from 'react'
-import { Box, Heading, VStack, HStack, Input, Button, Text, Spinner, useToast, Table, Thead, Tbody, Tr, Th, Td, Badge } from '@chakra-ui/react'
+import {
+  Box,
+  Heading,
+  VStack,
+  HStack,
+  Input,
+  Button,
+  Text,
+  Spinner,
+  useToast,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  Badge,
+  useColorModeValue
+} from '@chakra-ui/react'
+import { useNavigate } from 'react-router-dom'
+import { FiArrowLeft } from 'react-icons/fi'
 import ResourceTable from '../components/Admin/ResourceTable'
 import UploadForm from '../components/Admin/UploadForm'
 import { mockResources } from '../mockdata'
@@ -18,6 +38,11 @@ const Admin = () => {
   const [linkLoading, setLinkLoading] = useState(false)
   const [linkError, setLinkError] = useState('')
   const toast = useToast()
+  const navigate = useNavigate()
+  
+  const bg = useColorModeValue('white', '#000000')
+  const boxBg = useColorModeValue('gray.50', '#1a1a1a')
+  const textColor = useColorModeValue('gray.800', 'white')
 
   useEffect(() => {
     localStorage.setItem('resources', JSON.stringify(resources))
@@ -89,20 +114,33 @@ const Admin = () => {
   return (
     <MotionBox
       p={6}
+      bg={bg}
+      minH="100vh"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
       <VStack spacing={6} align="stretch">
-        <Heading>Admin Dashboard</Heading>
+        <HStack justify="space-between" align="center">
+          <Heading color={textColor}>Admin Dashboard</Heading>
+          <Button
+            leftIcon={<FiArrowLeft />}
+            variant="ghost"
+            onClick={() => navigate('/')}
+            color={textColor}
+            _hover={{ bg: useColorModeValue('gray.100', '#2a2a2a') }}
+          >
+            Back to Chat
+          </Button>
+        </HStack>
         {/* Upload PDF Section */}
-        <Box bg="gray.800" borderRadius="lg" p={6} mb={2}>
-          <Text fontSize="lg" fontWeight="bold" mb={2}>Upload PDF</Text>
+        <Box bg={boxBg} borderRadius="lg" p={6} mb={2}>
+          <Text fontSize="lg" fontWeight="bold" mb={2} color={textColor}>Upload PDF</Text>
           <UploadForm onUpload={handleUpload} onlyPdf />
         </Box>
         {/* Add Reference Link Section */}
-        <Box bg="gray.800" borderRadius="lg" p={6} mb={2}>
-          <Text fontSize="lg" fontWeight="bold" mb={2}>Add Reference Link</Text>
+        <Box bg={boxBg} borderRadius="lg" p={6} mb={2}>
+          <Text fontSize="lg" fontWeight="bold" mb={2} color={textColor}>Add Reference Link</Text>
           <HStack spacing={3} align="start">
             <Input
               placeholder="Enter a reference link (e.g., https://example.com)"
@@ -125,7 +163,7 @@ const Admin = () => {
         </Box>
         {/* Uploaded Resources Table (PDFs + Links) */}
         <Box>
-          <Text fontSize="lg" fontWeight="bold" mb={2}>Uploaded Resources</Text>
+          <Text fontSize="lg" fontWeight="bold" mb={2} color={textColor}>Uploaded Resources</Text>
           <ResourceTable
             resources={combinedResources}
             onDeleteResource={handleDeleteResource}

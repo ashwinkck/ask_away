@@ -18,6 +18,7 @@ import {
 import { useAuth } from '../../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import Hyperspeed from '../Hyperspeed'
 
 const MotionBox = motion(Box)
 const MotionButton = motion(Button)
@@ -46,87 +47,128 @@ const LoginForm = () => {
   }
 
   return (
-    <MotionBox
-      maxW="md"
-      mx="auto"
-      mt={20}
-      p={6}
-      bg={bg}
-      borderRadius="lg"
-      borderWidth="1px"
-      borderColor={borderColor}
-      shadow="lg"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+    <Box 
+      position="relative" 
+      minH="100vh" 
+      display="flex" 
+      alignItems="center" 
+      justifyContent="center"
+      bg={useColorModeValue('white', '#000000')}
+      w="100vw"
+      h="100vh"
+      overflow="hidden"
     >
-      <VStack spacing={4} as="form" onSubmit={handleSubmit}>
-        <Text fontSize="2xl" fontWeight="bold" color="brand.500">
-          Welcome Back
-        </Text>
-        
-        {error && (
-          <Alert status="error" borderRadius="md">
-            <AlertIcon />
-            {error}
-          </Alert>
-        )}
-        
-        <Input
-          aria-label="Email input"
-          type="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          size="md"
-          focusBorderColor="brand.500"
-        />
-        
-        <InputGroup>
+      <Box position="absolute" top={0} left={0} w="100%" h="100%" zIndex={0}>
+        <Hyperspeed />
+      </Box>
+      <MotionBox
+        maxW="xl"
+        mx="auto"
+        p={10}
+        borderRadius="2xl"
+        borderWidth="2px"
+        borderColor="rgba(255,255,255,0.4)"
+        shadow="2xl"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        zIndex={1}
+        position="relative"
+        bg="rgba(0,0,0,0.4)"
+        backdropFilter="blur(8px)"
+      >
+        <VStack spacing={8} as="form" onSubmit={handleSubmit}>
+          <Text fontSize="4xl" fontWeight="bold" color="white" textShadow="0 0 20px rgba(255,255,255,0.7)">
+            Welcome Back
+          </Text>
+          {error && (
+            <Alert status="error" borderRadius="lg" bg="rgba(255,0,0,0.3)" borderColor="red.400" p={4}>
+              <AlertIcon />
+              <Text color="white" fontSize="md">{error}</Text>
+            </Alert>
+          )}
           <Input
-            aria-label="Password input"
-            type={showPassword ? 'text' : 'password'}
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            aria-label="Email input"
+            type="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
-            size="md"
-            focusBorderColor="brand.500"
+            size="lg"
+            focusBorderColor="white"
+            bg="rgba(255,255,255,0.15)"
+            borderColor="rgba(255,255,255,0.4)"
+            color="white"
+            _placeholder={{ color: 'rgba(255,255,255,0.7)' }}
+            _hover={{ bg: 'rgba(255,255,255,0.2)' }}
+            _focus={{ bg: 'rgba(255,255,255,0.25)' }}
+            fontSize="lg"
+            h="60px"
+            p={4}
           />
-          <InputRightElement>
-            <IconButton
-              aria-label="Toggle password visibility"
-              icon={showPassword ? <FiEyeOff /> : <FiEye />}
-              onClick={() => setShowPassword(!showPassword)}
-              variant="ghost"
-              size="sm"
+          <InputGroup>
+            <Input
+              aria-label="Password input"
+              type={showPassword ? 'text' : 'password'}
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              size="lg"
+              focusBorderColor="white"
+              bg="rgba(255,255,255,0.15)"
+              borderColor="rgba(255,255,255,0.4)"
+              color="white"
+              _placeholder={{ color: 'rgba(255,255,255,0.7)' }}
+              _hover={{ bg: 'rgba(255,255,255,0.2)' }}
+              _focus={{ bg: 'rgba(255,255,255,0.25)' }}
+              fontSize="lg"
+              h="60px"
+              p={4}
             />
-          </InputRightElement>
-        </InputGroup>
-        
-        <MotionButton
-          type="submit"
-          colorScheme="blue"
-          size="lg"
-          width="full"
-          isLoading={loading}
-          spinner={<Spinner size="sm" />}
-          loadingText="Signing in..."
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          Sign In
-        </MotionButton>
-        
-        <Text fontSize="sm" color="gray.500">
-          Need access?{' '}
-          <Link color="brand.500" href="mailto:admin@example.com">
-            Contact admin
-          </Link>
-        </Text>
-      </VStack>
-    </MotionBox>
+            <InputRightElement h="60px">
+              <IconButton
+                aria-label="Toggle password visibility"
+                icon={showPassword ? <FiEyeOff /> : <FiEye />}
+                onClick={() => setShowPassword(!showPassword)}
+                variant="ghost"
+                size="lg"
+                color="white"
+                _hover={{ bg: 'rgba(255,255,255,0.15)' }}
+              />
+            </InputRightElement>
+          </InputGroup>
+          <MotionButton
+            type="submit"
+            size="lg"
+            width="full"
+            isLoading={loading}
+            spinner={<Spinner size="lg" />}
+            loadingText="Signing in..."
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            bg="rgba(255,255,255,0.25)"
+            color="white"
+            borderColor="rgba(255,255,255,0.4)"
+            borderWidth="2px"
+            _hover={{ bg: 'rgba(255,255,255,0.35)' }}
+            _active={{ bg: 'rgba(255,255,255,0.45)' }}
+            fontSize="lg"
+            h="60px"
+            fontWeight="bold"
+            p={6}
+          >
+            Sign In
+          </MotionButton>
+          <Text fontSize="lg" color="rgba(255,255,255,0.9)" textAlign="center">
+            Need access?{' '}
+            <Link color="white" href="mailto:admin@example.com" textDecoration="underline" fontWeight="bold">
+              Contact admin
+            </Link>
+          </Text>
+        </VStack>
+      </MotionBox>
+    </Box>
   )
 }
 

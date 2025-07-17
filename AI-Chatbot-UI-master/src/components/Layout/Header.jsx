@@ -22,13 +22,13 @@ const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode()
   const { user, logout } = useAuth()
   const navigate = useNavigate()
-  const bg = useColorModeValue('white', 'gray.800')
+  const bg = useColorModeValue('white', '#000000')
   const isMobile = useBreakpointValue({ base: true, md: false })
   const borderColor = useColorModeValue('gray.300', 'gray.700')
-  const logoTextColor = useColorModeValue('gray.800', 'gray.100')
-  const userTextColor = useColorModeValue('gray.600', 'gray.400')
-  const buttonBg = useColorModeValue('#f4f6fa', '#23272F')
-  const buttonHoverBg = useColorModeValue('#e2e8f0', '#181A20')
+  const logoTextColor = useColorModeValue('gray.800', 'white')
+  const userTextColor = useColorModeValue('gray.600', 'gray.300')
+  const buttonBg = useColorModeValue('#f4f6fa', '#1a1a1a')
+  const buttonHoverBg = useColorModeValue('#e2e8f0', '#2a2a2a')
 
   const handleLogout = async () => {
     await logout()
@@ -47,9 +47,9 @@ const Header = () => {
       left={0}
       right={0}
       zIndex={1000}
-      bg={useColorModeValue('white', 'gray.800')}
-      px={6}
-      py={3}
+      bg={bg}
+      px={8}
+      py={4}
       justify="space-between"
       align="center"
       boxShadow="none"
@@ -63,28 +63,29 @@ const Header = () => {
       }}
     >
       {/* Logo + name */}
-      <Flex align="center" gap={2}>
-        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-          <svg width="32" height="32" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="24" cy="24" r="24" fill="#23272F"/><path d="M24 12L28.3923 21.1764L38 22.3923L30.8 29.6077L32.7846 39L24 34.1764L15.2154 39L17.2 29.6077L10 22.3923L19.6077 21.1764L24 12Z" fill="#646cff"/></svg>
-          <Text fontSize={{ base: 'lg', md: 'xl' }} fontWeight="bold" color={logoTextColor} letterSpacing="wide" style={{ fontFamily: 'Staatliches, sans-serif' }}>
+      <Flex align="center" gap={3}>
+        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
+          <svg width="40" height="40" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="24" cy="24" r="24" fill="#23272F"/><path d="M24 12L28.3923 21.1764L38 22.3923L30.8 29.6077L32.7846 39L24 34.1764L15.2154 39L17.2 29.6077L10 22.3923L19.6077 21.1764L24 12Z" fill="#646cff"/></svg>
+          <Text fontSize={{ base: 'xl', md: '2xl' }} fontWeight="bold" color={logoTextColor} letterSpacing="wide" style={{ fontFamily: 'Staatliches, sans-serif' }}>
             AskAway
           </Text>
         </span>
       </Flex>
       {/* User controls */}
-      <Flex align="center" gap={2}>
+      <Flex align="center" gap={3}>
         {user && (
-          <Text fontSize="sm" color={userTextColor} display={{ base: 'none', md: 'block' }} fontWeight="medium">
+          <Text fontSize="md" color={userTextColor} display={{ base: 'none', md: 'block' }} fontWeight="medium">
             {user.role === 'admin' ? 'admin' : user.email || 'User'}
           </Text>
         )}
         {user?.role === 'admin' && (
           <MotionButton
             onClick={handleAdminClick}
-            size="sm"
+            size="md"
             variant="ghost"
             borderRadius="full"
-            px={4}
+            px={6}
+            py={2}
             bg={buttonBg}
             color={logoTextColor}
             _hover={{ bg: buttonHoverBg }}
@@ -100,7 +101,7 @@ const Header = () => {
           aria-label="Toggle color mode"
           icon={colorMode === 'light' ? <FiMoon /> : <FiSun />}
           onClick={toggleColorMode}
-          size="sm"
+          size="md"
           variant="ghost"
           borderRadius="full"
           bg={buttonBg}
@@ -114,10 +115,11 @@ const Header = () => {
         {user && (
           <MotionButton
             aria-label="Logout button"
-            size="sm"
+            size="md"
             variant="ghost"
             borderRadius="full"
-            px={4}
+            px={6}
+            py={2}
             bg={buttonBg}
             color={logoTextColor}
             _hover={{ bg: buttonHoverBg }}

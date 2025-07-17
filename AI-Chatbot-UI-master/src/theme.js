@@ -25,6 +25,57 @@ const theme = extendTheme({
       900: '#1a365d',
     },
   },
+  styles: {
+    global: (props) => ({
+      body: {
+        bg: props.colorMode === 'dark' ? '#000000' : '#ffffff',
+        color: props.colorMode === 'dark' ? '#ffffff' : '#000000',
+      },
+    }),
+  },
+  components: {
+    Box: {
+      baseStyle: (props) => ({
+        bg: props.colorMode === 'dark' ? '#000000' : undefined,
+      }),
+    },
+    Container: {
+      baseStyle: (props) => ({
+        bg: props.colorMode === 'dark' ? '#000000' : undefined,
+      }),
+    },
+    Card: {
+      baseStyle: (props) => ({
+        container: {
+          bg: props.colorMode === 'dark' ? '#000000' : undefined,
+        },
+      }),
+    },
+  },
+  semanticTokens: {
+    colors: {
+      'chakra-body-bg': {
+        _light: '#ffffff',
+        _dark: '#000000',
+      },
+      'chakra-body-text': {
+        _light: '#000000',
+        _dark: '#ffffff',
+      },
+      'chakra-subtle-bg': {
+        _light: '#f7fafc',
+        _dark: '#000000',
+      },
+      'chakra-subtle-text': {
+        _light: '#4a5568',
+        _dark: '#e2e8f0',
+      },
+      'chakra-placeholder-color': {
+        _light: '#a0aec0',
+        _dark: '#718096',
+      },
+    },
+  },
 })
 
 export default theme

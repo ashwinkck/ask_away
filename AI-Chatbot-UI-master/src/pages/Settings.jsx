@@ -19,9 +19,11 @@ const MotionButton = motion(Button)
 const Settings = () => {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
-  const bg = useColorModeValue('gray.50', 'gray.900')
-  const cardBg = useColorModeValue('white', 'gray.800')
+  const bg = useColorModeValue('gray.50', '#000000')
+  const cardBg = useColorModeValue('white', '#1a1a1a')
   const borderColor = useColorModeValue('gray.200', 'gray.600')
+  const textColor = useColorModeValue('gray.800', 'white')
+  const secondaryTextColor = useColorModeValue('gray.500', 'gray.400')
 
   const handleLogout = () => {
     logout()
@@ -50,33 +52,33 @@ const Settings = () => {
           transition={{ duration: 0.5 }}
         >
           <VStack spacing={6} align="stretch">
-            <Text fontSize="2xl" fontWeight="bold" textAlign="center">
+            <Text fontSize="2xl" fontWeight="bold" textAlign="center" color={textColor}>
               Account Settings
             </Text>
             
-            <Divider />
+            <Divider borderColor={borderColor} />
             
             <VStack spacing={4} align="stretch">
               <Box>
-                <Text fontSize="sm" color="gray.500" mb={1}>
+                <Text fontSize="sm" color={secondaryTextColor} mb={1}>
                   Email Address
                 </Text>
-                <Text fontSize="md" fontWeight="medium">
+                <Text fontSize="md" fontWeight="medium" color={textColor}>
                   {user?.email}
                 </Text>
               </Box>
               
               <Box>
-                <Text fontSize="sm" color="gray.500" mb={1}>
+                <Text fontSize="sm" color={secondaryTextColor} mb={1}>
                   Role
                 </Text>
-                <Text fontSize="md" fontWeight="medium" textTransform="capitalize">
+                <Text fontSize="md" fontWeight="medium" textTransform="capitalize" color={textColor}>
                   {user?.role}
                 </Text>
               </Box>
             </VStack>
             
-            <Divider />
+            <Divider borderColor={borderColor} />
             
             <VStack spacing={3}>
               <Button

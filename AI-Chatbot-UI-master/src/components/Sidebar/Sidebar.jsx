@@ -22,13 +22,13 @@ const MotionIconButton = motion(IconButton)
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
-  const sidebarBg = useColorModeValue('#f7fafd', '#181A20')
-  const chatItemBg = useColorModeValue('#e3e8f0', '#23272F')
-  const chatItemHoverBg = useColorModeValue('#d1d5db', '#23272F')
-  const chatTextColor = useColorModeValue('gray.800', 'gray.100')
-  const searchBg = useColorModeValue('#e3e8f0', '#23272F')
+  const sidebarBg = useColorModeValue('#f7fafd', '#000000')
+  const chatItemBg = useColorModeValue('#e3e8f0', '#1a1a1a')
+  const chatItemHoverBg = useColorModeValue('#d1d5db', '#2a2a2a')
+  const chatTextColor = useColorModeValue('gray.800', 'white')
+  const searchBg = useColorModeValue('#e3e8f0', '#1a1a1a')
   const searchPlaceholder = useColorModeValue('gray.500', 'gray.400')
-  const borderColor = useColorModeValue('gray.200', 'gray.600')
+  const borderColor = useColorModeValue('gray.200', 'gray.700')
 
   const toggleSidebar = () => setIsOpen(!isOpen)
 
@@ -65,10 +65,10 @@ const Sidebar = () => {
       top="70px"
       bottom={0}
       left={0}
-      w={{ base: '0', md: isOpen ? '240px' : '60px' }}
+      w={{ base: '0', md: isOpen ? '320px' : '60px' }}
       bg={sidebarBg}
       borderRightWidth="1px"
-      borderRightColor={useColorModeValue('gray.200', 'gray.700')}
+      borderRightColor={borderColor}
       p={2}
       transition="width 0.3s ease, background-color 0.3s ease"
       overflow="hidden"
@@ -107,7 +107,7 @@ const Sidebar = () => {
             _placeholder={{ color: searchPlaceholder }}
             fontSize="sm"
             borderWidth="1px"
-            borderColor={useColorModeValue('gray.200', 'gray.700')}
+            borderColor={borderColor}
           />
         </InputGroup>
         <VStack align="stretch" spacing={3} overflowY="auto" maxH="calc(100vh - 160px)">
@@ -126,7 +126,7 @@ const Sidebar = () => {
                     cursor="pointer"
                     transition="background 0.2s"
                   >
-                    <FiMessageCircle color={useColorModeValue('#646cff', '#646cff')} />
+                    <FiMessageCircle color="#646cff" />
                     <Text ml={2} fontSize="sm" isTruncated maxW="140px" color={chatTextColor}>
                       {item.query}
                     </Text>

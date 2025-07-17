@@ -28,8 +28,12 @@ const MotionBox = motion(Box)
 const HistoryDrawer = ({ isOpen, onClose, history, onSelectQuery, onClearHistory }) => {
   const { isOpen: isAlertOpen, onOpen: onAlertOpen, onClose: onAlertClose } = useDisclosure()
   const cancelRef = React.useRef()
-  const bg = useColorModeValue('white', 'gray.800')
-  const hoverBg = useColorModeValue('gray.50', 'gray.700')
+  const bg = useColorModeValue('white', '#000000')
+  const hoverBg = useColorModeValue('gray.50', '#1a1a1a')
+  const textColor = useColorModeValue('gray.800', 'white')
+  const secondaryTextColor = useColorModeValue('gray.500', 'gray.400')
+  const tertiaryTextColor = useColorModeValue('gray.400', 'gray.500')
+  const borderColor = useColorModeValue('gray.200', 'gray.600')
 
   const truncateText = (text, maxLength = 50) => {
     if (text.length <= maxLength) return text
@@ -49,11 +53,11 @@ const HistoryDrawer = ({ isOpen, onClose, history, onSelectQuery, onClearHistory
     <>
       <Drawer isOpen={isOpen} placement="left" onClose={onClose} size="md">
         <DrawerOverlay />
-        <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader borderBottomWidth="1px">
+        <DrawerContent bg={bg}>
+          <DrawerCloseButton color={textColor} />
+          <DrawerHeader borderBottomWidth="1px" borderColor={borderColor}>
             <HStack justify="space-between">
-              <Text>Chat History</Text>
+              <Text color={textColor}>Chat History</Text>
               <Button
                 colorScheme="red"
                 size="sm"
@@ -70,7 +74,7 @@ const HistoryDrawer = ({ isOpen, onClose, history, onSelectQuery, onClearHistory
             <VStack spacing={0} align="stretch">
               {history.length === 0 ? (
                 <Box p={6} textAlign="center">
-                  <Text color="gray.500">No chat history yet</Text>
+                  <Text color={secondaryTextColor}>No chat history yet</Text>
                 </Box>
               ) : (
                 history.map((item, index) => (
@@ -81,19 +85,19 @@ const HistoryDrawer = ({ isOpen, onClose, history, onSelectQuery, onClearHistory
                     _hover={{ bg: hoverBg }}
                     onClick={() => onSelectQuery(item)}
                     borderBottomWidth="1px"
-                    borderColor="gray.200"
+                    borderColor={borderColor}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3, delay: index * 0.1 }}
                   >
                     <VStack align="start" spacing={2}>
-                      <Text fontSize="sm" fontWeight="medium">
+                      <Text fontSize="sm" fontWeight="medium" color={textColor}>
                         {truncateText(item.query)}
                       </Text>
-                      <Text fontSize="xs" color="gray.500">
+                      <Text fontSize="xs" color={secondaryTextColor}>
                         {truncateText(item.response)}
                       </Text>
-                      <Text fontSize="xs" color="gray.400">
+                      <Text fontSize="xs" color={tertiaryTextColor}>
                         {formatTime(item.timestamp)}
                       </Text>
                     </VStack>
@@ -111,12 +115,12 @@ const HistoryDrawer = ({ isOpen, onClose, history, onSelectQuery, onClearHistory
         onClose={onAlertClose}
       >
         <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+          <AlertDialogContent bg={bg}>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold" color={textColor}>
               Clear Chat History
             </AlertDialogHeader>
 
-            <AlertDialogBody>
+            <AlertDialogBody color={textColor}>
               Are you sure you want to clear all chat history? This action cannot be undone.
             </AlertDialogBody>
 
